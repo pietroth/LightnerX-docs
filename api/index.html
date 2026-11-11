@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>API reference - LightnerX</title>
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../css/brands.min.css" rel="stylesheet">
+        <link href="../css/solid.min.css" rel="stylesheet">
+        <link href="../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="..">LightnerX</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item">
+                                <a href=".." class="nav-link">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../setup/" class="nav-link">Setup</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../first-steps/" class="nav-link">First steps</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../communication/" class="nav-link">Communication and INER</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="./" class="nav-link active" aria-current="page">API reference</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../communication/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" class="nav-link disabled">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#api-reference" class="nav-link">API reference</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#lightnerxcommunicationbase_protocol" class="nav-link">lightnerx.communication.base_protocol</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#lightnerxcommunicationmbt" class="nav-link">lightnerx.communication.mbt</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#message-types" class="nav-link">Message types</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#lightnerxcommunicationmessage" class="nav-link">lightnerx.communication.message</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#lightnerxnetworknetwork_manager" class="nav-link">lightnerx.network.network_manager</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#lightnerxnetworkserver" class="nav-link">lightnerx.network.server</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#lightnerxnetworkclient" class="nav-link">lightnerx.network.client</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#lightnerxnetworkconnection_manager" class="nav-link">lightnerx.network.connection_manager</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#lightnerxnetworktransport" class="nav-link">lightnerx.network.transport</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#lightnerxnetworktarget" class="nav-link">lightnerx.network.target</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#lightnerxnetworkmessage_batch" class="nav-link">lightnerx.network.message_batch</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="api-reference">API reference<a class="headerlink" href="#api-reference" title="Permanent link">&para;</a></h1>
+<p>This page presents the public components grouped by module. All modules are imported with <code>import</code> and belong to the indicated namespaces.</p>
+<p>Operations that return <code>std::expected&lt;void, std::error_code&gt;</code> can be checked with <code>if (!result)</code>. In the event of an error, <code>result.error()</code> provides the code and <code>result.error().message()</code> provides its description. Complete examples are available in <a href="../first-steps/">First steps</a>.</p>
+<h2 id="lightnerxcommunicationbase_protocol"><code>lightnerx.communication.base_protocol</code><a class="headerlink" href="#lightnerxcommunicationbase_protocol" title="Permanent link">&para;</a></h2>
+<h3 id="lightnerxcommunicationbaseprotocol"><code>lightnerx::communication::BaseProtocol</code><a class="headerlink" href="#lightnerxcommunicationbaseprotocol" title="Permanent link">&para;</a></h3>
+<p>Base structure for headers.</p>
+<pre><code class="language-cpp">BaseProtocol(std::uint16_t size);
+</code></pre>
+<ul>
+<li><code>size</code>: when constructing a message for sending, the encoded size of the Authority's message or the total size of the Obedient's message. The interpreter delivers this field with the size already decoded.</li>
+<li>Public field: <code>std::uint16_t size</code>.</li>
+</ul>
+<h2 id="lightnerxcommunicationmbt"><code>lightnerx.communication.mbt</code><a class="headerlink" href="#lightnerxcommunicationmbt" title="Permanent link">&para;</a></h2>
+<h3 id="lightnerxcommunicationmbt_1"><code>lightnerx::communication::MBT</code><a class="headerlink" href="#lightnerxcommunicationmbt_1" title="Permanent link">&para;</a></h3>
+<p>Stores the message's semantic identifier.</p>
+<pre><code class="language-cpp">MBT(std::uint16_t type);
+</code></pre>
+<ul>
+<li>Public field: <code>std::uint16_t type</code>.</li>
+</ul>
+<h2 id="message-types">Message types<a class="headerlink" href="#message-types" title="Permanent link">&para;</a></h2>
+<h3 id="lightnerxcommunicationevent"><code>lightnerx.communication.event</code><a class="headerlink" href="#lightnerxcommunicationevent" title="Permanent link">&para;</a></h3>
+<h3 id="lightnerxcommunicationevent_1"><code>lightnerx::communication::Event</code><a class="headerlink" href="#lightnerxcommunicationevent_1" title="Permanent link">&para;</a></h3>
+<p>Header for an event from the Authority.</p>
+<pre><code class="language-cpp">Event(std::uint16_t size, std::uint16_t typeId);
+</code></pre>
+<p>Public fields:</p>
+<ul>
+<li><code>protocol</code>: <code>BaseProtocol</code>;</li>
+<li><code>mbt</code>: <code>MBT</code>.</li>
+</ul>
+<h3 id="lightnerxcommunicationnotification"><code>lightnerx.communication.notification</code><a class="headerlink" href="#lightnerxcommunicationnotification" title="Permanent link">&para;</a></h3>
+<h3 id="lightnerxcommunicationnotification_1"><code>lightnerx::communication::Notification</code><a class="headerlink" href="#lightnerxcommunicationnotification_1" title="Permanent link">&para;</a></h3>
+<p>Header for a notification from the Obedient.</p>
+<pre><code class="language-cpp">Notification(std::uint16_t size, std::uint16_t type);
+</code></pre>
+<p>Public fields:</p>
+<ul>
+<li><code>protocol</code>: <code>BaseProtocol</code>;</li>
+<li><code>mbt</code>: <code>MBT</code>.</li>
+</ul>
+<h3 id="lightnerxcommunicationnotificationregistry"><code>lightnerx::communication::NotificationRegistry</code><a class="headerlink" href="#lightnerxcommunicationnotificationregistry" title="Permanent link">&para;</a></h3>
+<p>Registers IDs that the server should interpret as <code>Notification</code>.</p>
+<pre><code class="language-cpp">void registerId(std::uint16_t id);
+void registerIds(std::unordered_set&lt;std::uint16_t&gt;&amp;&amp; newIds);
+bool exist(std::uint16_t id) const noexcept;
+</code></pre>
+<p><code>registerId</code> adds an ID, and <code>registerIds</code> incorporates the IDs from a set passed as a temporary or with <code>std::move</code>. <code>exist()</code> reports whether the ID is registered. The application provides the registry to <code>obedientInterpret</code>.</p>
+<h3 id="lightnerxcommunicationintention"><code>lightnerx.communication.intention</code><a class="headerlink" href="#lightnerxcommunicationintention" title="Permanent link">&para;</a></h3>
+<h3 id="lightnerxcommunicationintention_1"><code>lightnerx::communication::Intention</code><a class="headerlink" href="#lightnerxcommunicationintention_1" title="Permanent link">&para;</a></h3>
+<p>Header for an intention sent to the Authority.</p>
+<pre><code class="language-cpp">Intention(
+    std::uint16_t size,
+    std::uint16_t type,
+    std::uint16_t correlationId
+);
+</code></pre>
+<p>Public fields:</p>
+<ul>
+<li><code>protocol</code>: <code>BaseProtocol</code>;</li>
+<li><code>mbt</code>: <code>MBT</code>;</li>
+<li><code>correlationId</code>: identifier used to correlate the response.</li>
+</ul>
+<h3 id="lightnerxcommunicationresponse"><code>lightnerx.communication.response</code><a class="headerlink" href="#lightnerxcommunicationresponse" title="Permanent link">&para;</a></h3>
+<h3 id="lightnerxcommunicationresponse_1"><code>lightnerx::communication::Response</code><a class="headerlink" href="#lightnerxcommunicationresponse_1" title="Permanent link">&para;</a></h3>
+<p>Header used for approved or failure responses.</p>
+<pre><code class="language-cpp">Response(
+    std::uint16_t size,
+    std::uint16_t correlationId,
+    std::uint8_t status
+);
+</code></pre>
+<p>Public fields:</p>
+<ul>
+<li><code>protocol</code>: <code>BaseProtocol</code>;</li>
+<li><code>correlationId</code>;</li>
+<li><code>status</code>.</li>
+</ul>
+<h3 id="lightnerxcommunicationunsuccessfulresponse"><code>lightnerx::communication::UnsuccessfulResponse</code><a class="headerlink" href="#lightnerxcommunicationunsuccessfulresponse" title="Permanent link">&para;</a></h3>
+<p>Header used for denied or partially approved responses.</p>
+<pre><code class="language-cpp">UnsuccessfulResponse(
+    std::uint16_t size,
+    std::uint16_t correlationId,
+    std::uint8_t status,
+    std::uint16_t reasonCode
+);
+</code></pre>
+<p>Public fields:</p>
+<ul>
+<li><code>protocol</code>: <code>BaseProtocol</code>;</li>
+<li><code>correlationId</code>;</li>
+<li><code>status</code>;</li>
+<li><code>reasonCode</code>.</li>
+</ul>
+<h3 id="status-constants">Status constants<a class="headerlink" href="#status-constants" title="Permanent link">&para;</a></h3>
+<pre><code class="language-cpp">constexpr std::uint8_t APPROVED_RESPONSE = 0;
+constexpr std::uint8_t DENIED_RESPONSE = 1;
+constexpr std::uint8_t PARTIALLY_APPROVED_RESPONSE = 2;
+constexpr std::uint8_t FAILURE_RESPONSE = 3;
+</code></pre>
+<h2 id="lightnerxcommunicationmessage"><code>lightnerx.communication.message</code><a class="headerlink" href="#lightnerxcommunicationmessage" title="Permanent link">&para;</a></h2>
+<h3 id="lightnerxcommunicationmessage_1"><code>lightnerx::communication::Message</code><a class="headerlink" href="#lightnerxcommunicationmessage_1" title="Permanent link">&para;</a></h3>
+<p>Result delivered by the interpreter.</p>
+<pre><code class="language-cpp">struct Message {
+    std::variant&lt;
+        Event,
+        Intention,
+        Response,
+        UnsuccessfulResponse,
+        Notification
+    &gt; header;
+    std::span&lt;const std::byte&gt; payload;
+};
+</code></pre>
+<p>Use <code>std::visit(visitor, message.header)</code> to examine the type stored in <code>header</code>. The header is a value; <code>payload</code> references the buffer provided to the interpreter. To use the payload after the receive callback, copy the bytes into application storage.</p>
+<h3 id="lightnerxcommunicationmessageinterpreter"><code>lightnerx::communication::MessageInterpreter</code><a class="headerlink" href="#lightnerxcommunicationmessageinterpreter" title="Permanent link">&para;</a></h3>
+<p>Interprets received bytes and calls registered callbacks in registration order, during the interpretation call itself. More than one callback can be registered. Lambdas that capture objects by reference require those objects to remain alive while the callbacks run.</p>
+<h4 id="callback-registration">Callback registration<a class="headerlink" href="#callback-registration" title="Permanent link">&para;</a></h4>
+<pre><code class="language-cpp">void addAuthorityInterpretedMessageCallback(
+    std::function&lt;void(Message)&gt; callback
+);
+
+void addObedientInterpretedMessageCallback(
+    std::function&lt;void(Message, std::uint16_t)&gt; callback
+);
+</code></pre>
+<p>The callback registered with <code>addAuthorityInterpretedMessageCallback</code> receives messages sent by the Authority, typically on the client. The one registered with <code>addObedientInterpretedMessageCallback</code> receives messages sent by the Obedient, typically on the server, along with the internal client ID.</p>
+<h4 id="interpretation-on-the-server">Interpretation on the server<a class="headerlink" href="#interpretation-on-the-server" title="Permanent link">&para;</a></h4>
+<pre><code class="language-cpp">void obedientInterpret(
+    std::span&lt;const std::byte&gt; data,
+    const NotificationRegistry&amp; registry,
+    HSteamNetConnection hConn,
+    const lightnerx::network::ConnectionManager&amp; connManager
+);
+</code></pre>
+<p>Interprets messages sent by the Obedient. IDs found in the registry are treated as <code>Notification</code>; the others are treated as <code>Intention</code>. <code>hConn</code> identifies the source connection, and <code>connManager</code> provides its mapping to the internal ID. Keep this mapping up to date when connecting and disconnecting clients. The signature specifically takes <code>lightnerx::network::ConnectionManager</code>.</p>
+<h4 id="interpretation-on-the-client">Interpretation on the client<a class="headerlink" href="#interpretation-on-the-client" title="Permanent link">&para;</a></h4>
+<pre><code class="language-cpp">void authorityInterpret(std::span&lt;const std::byte&gt; data);
+</code></pre>
+<p>Interprets <code>Event</code> and responses sent by the Authority. The type bit selects event or response; the status selects <code>Response</code> or <code>UnsuccessfulResponse</code>. The approved and failure statuses deliver an empty payload; denial and partial approval deliver the bytes following <code>UnsuccessfulResponse</code>.</p>
+<h3 id="outbound-converters">Outbound converters<a class="headerlink" href="#outbound-converters" title="Permanent link">&para;</a></h3>
+<p>The functions below return <code>lightnerx::network::OutboundMessage</code>:</p>
+<pre><code class="language-cpp">lightnerx::network::OutboundMessage event2OutboundMessage(
+    const Event&amp; event,
+    std::span&lt;const std::byte&gt; payload,
+    lightnerx::network::Target target
+);
+
+lightnerx::network::OutboundMessage intention2OutboundMessage(
+    const Intention&amp; intention,
+    std::span&lt;const std::byte&gt; payload,
+    lightnerx::network::Target target
+);
+
+lightnerx::network::OutboundMessage response2OutboundMessage(
+    const Response&amp; response,
+    std::span&lt;const std::byte&gt; payload,
+    lightnerx::network::Target target
+);
+
+lightnerx::network::OutboundMessage unsuccessfulResponse2OutboundMessage(
+    const UnsuccessfulResponse&amp; response,
+    std::span&lt;const std::byte&gt; payload,
+    lightnerx::network::Target target
+);
+
+lightnerx::network::OutboundMessage notification2OutboundMessage(
+    const Notification&amp; notification,
+    std::span&lt;const std::byte&gt; payload,
+    lightnerx::network::Target target
+);
+</code></pre>
+<p>The converters allocate a <code>SteamNetworkingMessage_t</code>, copy the header, and append the payload. The returned object contains the <code>message</code> pointer and the destination <code>target</code>.</p>
+<p>Initialize the network before using them. The caller fills in the <code>size</code> field according to the <a href="../communication/#binary-representation">binary representation</a> and passes the created object to <code>queueMessage</code>, which takes ownership of it. If the object is never passed to the queue, the caller must release it with <code>Release()</code>. For approved, denied, or failure responses, provide <code>{}</code> as the payload; for partial approval, provide the bytes defined by the application.</p>
+<h2 id="lightnerxnetworknetwork_manager"><code>lightnerx.network.network_manager</code><a class="headerlink" href="#lightnerxnetworknetwork_manager" title="Permanent link">&para;</a></h2>
+<p>Functions for controlling the global network state:</p>
+<pre><code class="language-cpp">bool networkInit();
+void networkKill();
+bool isNetworkInitialized();
+</code></pre>
+<p><code>networkInit()</code> initializes GameNetworkingSockets and returns <code>true</code> when initialization succeeds or has already been registered. <code>isNetworkInitialized()</code> queries this state. <code>networkKill()</code> shuts down the network and clears the state maintained by this module. <code>Server::start()</code> and <code>Client::start()</code> already call <code>networkInit()</code>.</p>
+<h2 id="lightnerxnetworkserver"><code>lightnerx.network.server</code><a class="headerlink" href="#lightnerxnetworkserver" title="Permanent link">&para;</a></h2>
+<h3 id="lightnerxnetworkserver_1"><code>lightnerx::network::Server</code><a class="headerlink" href="#lightnerxnetworkserver_1" title="Permanent link">&para;</a></h3>
+<p>Server based on a listen socket and a poll group.</p>
+<h4 id="callbacks">Callbacks<a class="headerlink" href="#callbacks" title="Permanent link">&para;</a></h4>
+<pre><code class="language-cpp">void addClientConnectedCallback(
+    std::function&lt;void(HSteamNetConnection)&gt; callback
+);
+
+void addClientDisconnectedCallback(
+    std::function&lt;void(HSteamNetConnection)&gt; callback
+);
+
+void addClientReceivedMessageCallback(
+    std::function&lt;void(
+        std::span&lt;const std::byte&gt;,
+        HSteamNetConnection
+    )&gt; callback
+);
+</code></pre>
+<h4 id="lifecycle">Lifecycle<a class="headerlink" href="#lifecycle" title="Permanent link">&para;</a></h4>
+<pre><code class="language-cpp">std::expected&lt;void, std::error_code&gt; start(
+    int port,
+    std::uint32_t timeoutConnected
+);
+
+std::expected&lt;void, std::error_code&gt; update();
+
+std::expected&lt;void, std::error_code&gt; disconnectConnection(
+    HSteamNetConnection hConn,
+    bool enableLinger
+);
+
+void close();
+</code></pre>
+<p><code>start()</code> initializes the network and opens the listen socket on the specified port; <code>timeoutConnected</code> is passed to GameNetworkingSockets in milliseconds. After a successful start, <code>update()</code> processes network callbacks and up to one available message in the poll group.</p>
+<p>The connection callback is called after acceptance and assignment to the poll group. The receive callback provides the bytes and the source handle. The bytes remain valid during these callbacks.</p>
+<p><code>disconnectConnection()</code> requests that a specific connection be closed and, on success, calls the disconnection callbacks. <code>enableLinger</code> is forwarded to the transport to control the attempt to send pending data when closing. <code>close()</code> closes the listen socket, destroys the poll group, and shuts down GameNetworkingSockets.</p>
+<h2 id="lightnerxnetworkclient"><code>lightnerx.network.client</code><a class="headerlink" href="#lightnerxnetworkclient" title="Permanent link">&para;</a></h2>
+<h3 id="lightnerxnetworkclient_1"><code>lightnerx::network::Client</code><a class="headerlink" href="#lightnerxnetworkclient_1" title="Permanent link">&para;</a></h3>
+<p>Client that connects to an IP address and processes messages from the connection to the server.</p>
+<pre><code class="language-cpp">void addServerReceivedMessageCallback(
+    const std::function&lt;void(std::span&lt;const std::byte&gt;)&gt;&amp; callback
+);
+
+std::expected&lt;void, std::error_code&gt; start();
+
+std::expected&lt;void, std::error_code&gt; connect(
+    std::string_view ip,
+    int port
+);
+
+std::expected&lt;void, std::error_code&gt; update(
+    int maxMessagesToProcess
+);
+
+std::expected&lt;void, std::error_code&gt; disconnect(
+    bool enableLinger
+);
+
+bool isConnected() const noexcept;
+HSteamNetConnection getServerHConn() const noexcept;
+</code></pre>
+<p><code>start()</code> initializes the transport. <code>connect()</code> initiates the connection to the specified IP address and port; monitor <code>isConnected()</code> while calling <code>update()</code> to observe the connection being established. <code>update()</code> runs network callbacks and processes up to the specified number of messages; values less than or equal to zero run only the network callbacks.</p>
+<p><code>getServerHConn()</code> returns the handle used to send messages to the server, for example with <code>Target::single(client.getServerHConn())</code>. The receive callback is stored by the client, and the provided span remains valid during its execution.</p>
+<p><code>disconnect()</code> requests that the connection be closed and forwards <code>enableLinger</code> to the transport. The destructor closes the existing connection and shuts down the GameNetworkingSockets instance initialized by the client.</p>
+<h2 id="lightnerxnetworkconnection_manager"><code>lightnerx.network.connection_manager</code><a class="headerlink" href="#lightnerxnetworkconnection_manager" title="Permanent link">&para;</a></h2>
+<h3 id="lightnerxnetworkconnectionmanager"><code>lightnerx::network::ConnectionManager</code><a class="headerlink" href="#lightnerxnetworkconnectionmanager" title="Permanent link">&para;</a></h3>
+<p>Maintains the mapping between internal IDs and connection handles.</p>
+<pre><code class="language-cpp">ConnectionManager(int initialReserve, int maxCapacity);
+
+HSteamNetConnection getHSteamNetConnection(
+    std::uint16_t id
+) const noexcept;
+
+std::optional&lt;std::uint16_t&gt; getClientId(
+    HSteamNetConnection hConn
+) const noexcept;
+
+std::optional&lt;std::uint16_t&gt; add(HSteamNetConnection hConn);
+void remove(int id);
+
+int getOnlineCount() const noexcept;
+
+void forEach(const auto&amp; callback) const noexcept;
+</code></pre>
+<p><code>initialReserve</code> reserves storage space, and <code>maxCapacity</code> defines the maximum number of registered connections. <code>add</code> registers a handle and returns the assigned ID, or an empty <code>std::optional</code> when registration is not performed. <code>remove</code> unregisters the ID; closing the connection is handled by the networking component.</p>
+<p><code>getHSteamNetConnection</code> looks up a handle by its internal ID and returns <code>0</code> when there is no handle at that position. <code>getClientId</code> looks up the ID associated with the handle in GameNetworkingSockets. <code>getOnlineCount</code> returns the number of active registrations.</p>
+<p><code>forEach</code> calls the callback for each active registration, providing the ID and handle:</p>
+<pre><code class="language-cpp">connections.forEach(
+    [](std::uint16_t id, HSteamNetConnection connection) {
+        // Send to or inspect the connection.
+    }
+);
+</code></pre>
+<h2 id="lightnerxnetworktransport"><code>lightnerx.network.transport</code><a class="headerlink" href="#lightnerxnetworktransport" title="Permanent link">&para;</a></h2>
+<h3 id="direct-sending">Direct sending<a class="headerlink" href="#direct-sending" title="Permanent link">&para;</a></h3>
+<pre><code class="language-cpp">std::expected&lt;void, std::error_code&gt; sendToConnection(
+    std::span&lt;const std::byte&gt; message,
+    HSteamNetConnection hConn
+);
+</code></pre>
+<p>Forwards the bytes to GameNetworkingSockets with the reliable send option. The return value indicates whether the transport accepted the send. This function uses the transport directly, bypassing the batcher queue.</p>
+<h3 id="sending-to-a-group">Sending to a group<a class="headerlink" href="#sending-to-a-group" title="Permanent link">&para;</a></h3>
+<pre><code class="language-cpp">std::expected&lt;void, std::error_code&gt; sendToConnections(
+    std::span&lt;const std::byte&gt; message,
+    const std::vector&lt;HSteamNetConnection&gt; connections
+);
+</code></pre>
+<p>Forwards the same bytes to each handle in the vector. Attempts all destinations and returns the first error encountered, if any.</p>
+<h3 id="broadcast">Broadcast<a class="headerlink" href="#broadcast" title="Permanent link">&para;</a></h3>
+<pre><code class="language-cpp">std::expected&lt;void, std::error_code&gt; broadcast(
+    std::span&lt;const std::byte&gt; message,
+    const lightnerx::network::ConnectionManager&amp; connectionManager,
+    const std::vector&lt;HSteamNetConnection&gt; exceptions
+);
+</code></pre>
+<p>Forwards the same bytes to the connections registered in <code>ConnectionManager</code>, except for the handles in <code>exceptions</code>. Attempts all selected destinations and returns the first error encountered, if any. For direct sending, the third argument is required; use <code>{}</code> to include all connections:</p>
+<pre><code class="language-cpp">const auto all = lightnerx::network::broadcast(bytes, connections, {});
+const auto others = lightnerx::network::broadcast(bytes, connections, {connectionToSkip});
+</code></pre>
+<p>The examples above are independent calls; check the result of each send used by the application. To defer sending until a flush, use <code>Target::broadcast</code> with <code>queueMessage</code>.</p>
+<h2 id="lightnerxnetworktarget"><code>lightnerx.network.target</code><a class="headerlink" href="#lightnerxnetworktarget" title="Permanent link">&para;</a></h2>
+<h3 id="lightnerxnetworktarget_1"><code>lightnerx::network::Target</code><a class="headerlink" href="#lightnerxnetworktarget_1" title="Permanent link">&para;</a></h3>
+<p>Represents the destination of a queued message. Use the static factories to create the destination:</p>
+<pre><code class="language-cpp">static Target single(HSteamNetConnection conn);
+
+static Target group(std::vector&lt;HSteamNetConnection&gt; connections);
+
+static Target broadcast(
+    std::vector&lt;HSteamNetConnection&gt; exceptions = {}
+);
+
+[[nodiscard]] bool isBroadcast() const noexcept;
+[[nodiscard]] bool isSingle() const noexcept;
+</code></pre>
+<ul>
+<li><code>single</code> selects one connection.</li>
+<li><code>group</code> stores the provided vector of handles.</li>
+<li><code>broadcast()</code> selects all connections registered in the <code>ConnectionManager</code> used during the flush. <code>broadcast({handle})</code> excludes the specified handle; the vector can contain multiple exceptions.</li>
+</ul>
+<p>The factories only describe destinations. <code>isSingle()</code> reports whether the destination is an individual connection; <code>isBroadcast()</code> reports whether it is a broadcast. Broadcast queries connections at flush time, while a group uses the list stored in <code>Target</code>.</p>
+<p>Public fields:</p>
+<pre><code class="language-cpp">std::variant&lt;
+    std::monostate,
+    std::vector&lt;HSteamNetConnection&gt;,
+    HSteamNetConnection
+&gt; connection;
+
+std::vector&lt;HSteamNetConnection&gt; broadcastExceptions;
+</code></pre>
+<h2 id="lightnerxnetworkmessage_batch"><code>lightnerx.network.message_batch</code><a class="headerlink" href="#lightnerxnetworkmessage_batch" title="Permanent link">&para;</a></h2>
+<h3 id="lightnerxnetworkoutboundmessage"><code>lightnerx::network::OutboundMessage</code><a class="headerlink" href="#lightnerxnetworkoutboundmessage" title="Permanent link">&para;</a></h3>
+<pre><code class="language-cpp">struct OutboundMessage {
+    SteamNetworkingMessage_t* message;
+    Target target;
+};
+</code></pre>
+<h3 id="batcher">Batcher<a class="headerlink" href="#batcher" title="Permanent link">&para;</a></h3>
+<pre><code class="language-cpp">void initMessagesBatcher(int capacity);
+
+std::expected&lt;void, std::error_code&gt; queueMessage(OutboundMessage message);
+
+std::expected&lt;void, std::error_code&gt; flushAll(
+    const ConnectionManager&amp; connectionManager
+);
+</code></pre>
+<p><code>initMessagesBatcher</code> reserves space in the batcher's shared queue. Call it before queuing, with the number of messages you want to be able to keep pending; this reservation does not empty an existing queue.</p>
+<p><code>queueMessage</code> receives an <code>OutboundMessage</code> by value and moves it into the queue. The message allocated by the converter is retained, without allocating another message or copying the bytes. If the reserved capacity is occupied, it releases the received message and returns <code>std::errc::not_enough_memory</code>. If <code>message.message</code> is null, it returns <code>std::errc::invalid_argument</code> without queuing.</p>
+<p><code>flushAll</code> processes each message separately by sending it to an individual connection, a group, or a broadcast. <code>ConnectionManager</code> is a required argument and provides the broadcast recipients. The function releases all internal messages and empties the queue even when errors occur, returning the last error among the send operations. An empty queue returns success.</p>
+<p>Calling <code>queueMessage</code> consumes the message, both on success and on error. Pass an existing object with <code>std::move(outbound)</code> or use a converter's result directly. Afterward, do not access, release, or requeue the message. <code>OutboundMessage</code> contains a raw pointer: <code>std::move</code> allows the destination to be moved, but does not automatically set the pointer to null in the original object. Copying the object does not duplicate the message either; therefore, do not pass copies of the same message to the queue. If you never pass a created message to the queue, release it exactly once with <code>Release()</code>.</p>
+<p>With the network and batcher initialized, and <code>event</code>, <code>payload</code>, <code>connection</code>, and <code>connections</code> defined by the application, typical usage after a converter is:</p>
+<pre><code class="language-cpp">auto outbound = lightnerx::communication::event2OutboundMessage(
+    event,
+    payload,
+    lightnerx::network::Target::single(connection)
+);
+
+const auto queued = lightnerx::network::queueMessage(std::move(outbound));
+
+if (!queued) {
+    std::println(&quot;Failed to queue: {}&quot;, queued.error().message());
+} else if (const auto flushed = lightnerx::network::flushAll(connections); !flushed) {
+    std::println(&quot;Failed to send: {}&quot;, flushed.error().message());
+}
+</code></pre>
+<p>You can also queue multiple messages before calling <code>flushAll</code>. The batcher keeps each message separate, and the application chooses when to flush.</p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../js/base.js"></script>
+        <script src="../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

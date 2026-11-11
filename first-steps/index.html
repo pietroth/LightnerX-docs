@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>First steps - LightnerX</title>
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../css/brands.min.css" rel="stylesheet">
+        <link href="../css/solid.min.css" rel="stylesheet">
+        <link href="../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="..">LightnerX</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item">
+                                <a href=".." class="nav-link">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../setup/" class="nav-link">Setup</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="./" class="nav-link active" aria-current="page">First steps</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../communication/" class="nav-link">Communication and INER</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../api/" class="nav-link">API reference</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../setup/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../communication/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#first-steps" class="nav-link">First steps</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#server" class="nav-link">Server</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#client" class="nav-link">Client</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#execution-model" class="nav-link">Execution model</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#batch-sending" class="nav-link">Batch sending</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#next-steps" class="nav-link">Next steps</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="first-steps">First steps<a class="headerlink" href="#first-steps" title="Permanent link">&para;</a></h1>
+<p>This guide shows the essential flow for setting up a server and a client. The examples use LightnerX components directly and leave the execution model to the application. The two programs illustrate separate consuming applications; the library remains a static library.</p>
+<h2 id="server">Server<a class="headerlink" href="#server" title="Permanent link">&para;</a></h2>
+<p>The server receives bytes from clients, forwards those bytes to <code>MessageInterpreter</code>, and receives interpreted messages through a callback.</p>
+<pre><code class="language-cpp">#include &quot;steam/steamnetworkingtypes.h&quot;
+
+import std;
+
+import lightnerx.communication.intention;
+import lightnerx.communication.message;
+import lightnerx.communication.notification;
+import lightnerx.network.connection_manager;
+import lightnerx.network.server;
+
+int main() {
+    lightnerx::network::Server server;
+    lightnerx::network::ConnectionManager connections{10, 10};
+    lightnerx::communication::MessageInterpreter interpreter;
+    lightnerx::communication::NotificationRegistry registry;
+
+    registry.registerId(47);
+
+    server.addClientConnectedCallback(
+        [&amp;connections, &amp;server](HSteamNetConnection connection) {
+            if (!connections.add(connection)) {
+                const auto disconnected = server.disconnectConnection(connection, false);
+                if (!disconnected) {
+                    std::println(&quot;Failed to disconnect: {}&quot;, disconnected.error().message());
+                }
+            }
+        }
+    );
+
+    server.addClientDisconnectedCallback(
+        [&amp;connections](HSteamNetConnection connection) {
+            if (const auto id = connections.getClientId(connection)) {
+                connections.remove(*id);
+            }
+        }
+    );
+
+    server.addClientReceivedMessageCallback(
+        [&amp;interpreter, &amp;registry, &amp;connections](
+            std::span&lt;const std::byte&gt; bytes,
+            HSteamNetConnection connection
+        ) {
+            interpreter.obedientInterpret(
+                bytes,
+                registry,
+                connection,
+                connections
+            );
+        }
+    );
+
+    interpreter.addObedientInterpretedMessageCallback(
+        [](lightnerx::communication::Message message, std::uint16_t clientId) {
+            std::println(&quot;Message received from client {}&quot;, clientId);
+            std::visit([](const auto&amp; header) {
+                using Header = std::remove_cvref_t&lt;decltype(header)&gt;;
+                if constexpr (std::is_same_v&lt;Header, lightnerx::communication::Intention&gt;) {
+                    std::println(&quot;Intention {}, correlation {}&quot;,
+                                 header.mbt.type, header.correlationId);
+                } else if constexpr (std::is_same_v&lt;Header, lightnerx::communication::Notification&gt;) {
+                    std::println(&quot;Notification {}&quot;, header.mbt.type);
+                }
+            }, message.header);
+        }
+    );
+
+    const auto started = server.start(45333, 2500);
+    if (!started) {
+        std::println(&quot;Failed to start: {}&quot;, started.error().message());
+        return 1;
+    }
+
+    while (true) {
+        if (const auto updated = server.update(); !updated) {
+            std::println(&quot;Update failed: {}&quot;, updated.error().message());
+            break;
+        }
+    }
+
+    server.close();
+}
+</code></pre>
+<p>The connection callback must update the <code>ConnectionManager</code>, because the interpreter uses this object to map the connection to the ID delivered to the interpreted message callback.</p>
+<p>The lambdas capture the components by reference to connect them. Keep these objects alive as long as their callbacks may run. The received <code>payload</code> points to the network message's bytes; copy the bytes during the callback if you need to use them later.</p>
+<h2 id="client">Client<a class="headerlink" href="#client" title="Permanent link">&para;</a></h2>
+<p>The client forwards bytes received from the server to the <code>authorityInterpret</code> method.</p>
+<pre><code class="language-cpp">#include &quot;steam/steamnetworkingtypes.h&quot;
+
+import std;
+
+import lightnerx.communication.event;
+import lightnerx.communication.message;
+import lightnerx.communication.response;
+import lightnerx.network.client;
+
+int main() {
+    lightnerx::network::Client client;
+    lightnerx::communication::MessageInterpreter interpreter;
+
+    client.addServerReceivedMessageCallback(
+        [&amp;interpreter](std::span&lt;const std::byte&gt; bytes) {
+            interpreter.authorityInterpret(bytes);
+        }
+    );
+
+    interpreter.addAuthorityInterpretedMessageCallback(
+        [](lightnerx::communication::Message message) {
+            std::visit([](const auto&amp; header) {
+                using Header = std::remove_cvref_t&lt;decltype(header)&gt;;
+                if constexpr (std::is_same_v&lt;Header, lightnerx::communication::Event&gt;) {
+                    std::println(&quot;Event {}&quot;, header.mbt.type);
+                } else if constexpr (
+                    std::is_same_v&lt;Header, lightnerx::communication::Response&gt; ||
+                    std::is_same_v&lt;Header, lightnerx::communication::UnsuccessfulResponse&gt;
+                ) {
+                    std::println(&quot;Response to intention {}: status {}&quot;,
+                                 header.correlationId, header.status);
+                    if constexpr (std::is_same_v&lt;Header, lightnerx::communication::UnsuccessfulResponse&gt;) {
+                        std::println(&quot;Reason {}&quot;, header.reasonCode);
+                    }
+                }
+            }, message.header);
+        }
+    );
+
+    if (const auto started = client.start(); !started) {
+        std::println(&quot;Failed to start: {}&quot;, started.error().message());
+        return 1;
+    }
+
+    if (const auto connected = client.connect(&quot;127.0.0.1&quot;, 45333);
+        !connected) {
+        std::println(&quot;Failed to connect: {}&quot;, connected.error().message());
+        return 1;
+    }
+
+    while (true) {
+        if (const auto updated = client.update(1); !updated) {
+            std::println(&quot;Update failed: {}&quot;, updated.error().message());
+            break;
+        }
+    }
+}
+</code></pre>
+<p><code>connect()</code> initiates the connection, and <code>update()</code> processes network callbacks and available messages. <code>isConnected()</code> can be used to query the state observed by the client.</p>
+<h2 id="execution-model">Execution model<a class="headerlink" href="#execution-model" title="Permanent link">&para;</a></h2>
+<p>The <code>server.update()</code> and <code>client.update()</code> methods are called by the application. They can run on the main thread, on a dedicated thread, or within the consuming project's existing execution loop.</p>
+<p>The library does not require a specific number of threads or a fixed interval between updates.</p>
+<p>Receive callbacks run during <code>update()</code>, and interpretation callbacks run on the thread that calls the interpreter. When sharing components across threads, handle synchronization in the application. For the batcher, serialize initialization, queuing, and flush calls, which operate on the same queue.</p>
+<h2 id="batch-sending">Batch sending<a class="headerlink" href="#batch-sending" title="Permanent link">&para;</a></h2>
+<p>With the network initialized by <code>Server::start()</code>, <code>Client::start()</code>, or <code>lightnerx::network::networkInit()</code>, reserve space in the batcher before queuing the first message. Import <code>lightnerx.network.message_batch</code> and call:</p>
+<pre><code class="language-cpp">lightnerx::network::initMessagesBatcher(64);
+</code></pre>
+<p>The destination is defined by <code>lightnerx::network::Target</code>. The following function creates an <code>Event</code>, routes it to a group, and sends the queue. It assumes the initialization above and returns the result of queuing or flushing to the caller. The same flow applies to the other message converters.</p>
+<pre><code class="language-cpp">#include &quot;steam/steamnetworkingtypes.h&quot;
+
+import std;
+
+import lightnerx.communication.event;
+import lightnerx.communication.message;
+import lightnerx.network.connection_manager;
+import lightnerx.network.message_batch;
+import lightnerx.network.target;
+
+std::expected&lt;void, std::error_code&gt; sendEventToGroup(
+    std::span&lt;const std::byte&gt; payload,
+    std::vector&lt;HSteamNetConnection&gt; receivers,
+    const lightnerx::network::ConnectionManager&amp; connections
+) {
+    const auto totalSize = sizeof(lightnerx::communication::Event) + payload.size();
+    if (totalSize &gt; 0x7fff) {
+        return std::unexpected(std::make_error_code(std::errc::message_size));
+    }
+
+    const lightnerx::communication::Event event{
+        static_cast&lt;std::uint16_t&gt;(totalSize &lt;&lt; 1),
+        47
+    };
+
+    auto outbound = lightnerx::communication::event2OutboundMessage(
+        event,
+        payload,
+        lightnerx::network::Target::group(std::move(receivers))
+    );
+
+    const auto queued = lightnerx::network::queueMessage(std::move(outbound));
+
+    if (!queued) {
+        return queued;
+    }
+
+    return lightnerx::network::flushAll(connections);
+}
+</code></pre>
+<p><code>queueMessage</code> receives the <code>OutboundMessage</code> created by the converter and takes ownership of the message and its destination, without reallocating the message or copying its bytes. If the queue is full, the call releases the message immediately and returns an error. If queuing is accepted, <code>flushAll</code> releases the message after the send attempt.</p>
+<p>Pass an existing object with <code>std::move(outbound)</code> or pass the converter's result directly to <code>queueMessage</code>. After the call, do not access, release, or requeue the consumed message, including in the event of an error. Since <code>message</code> is a raw pointer, <code>std::move</code> does not automatically set it to null in the original object. The header and payload provided to the converter remain owned by the application.</p>
+<p>With handles obtained by the client or through the server's connection callbacks, the available destinations are:</p>
+<pre><code class="language-cpp">auto oneClient = lightnerx::network::Target::single(connection);
+auto selectedClients = lightnerx::network::Target::group({firstConnection, secondConnection});
+auto everyone = lightnerx::network::Target::broadcast();
+auto everyoneElse = lightnerx::network::Target::broadcast({connectionToSkip});
+</code></pre>
+<p>These calls only describe destinations. You can queue several messages and run <code>flushAll(connections)</code> at the end of an application step; the immediate flush shown in the function is a choice made for the example.</p>
+<h2 id="next-steps">Next steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
+<ul>
+<li>See <a href="../communication/">Communication and the INER protocol</a> to understand headers, destinations, and sending flows.</li>
+<li>See <a href="../api/">API reference</a> for networking components, messages, <code>Target</code>, and the batcher.</li>
+</ul></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../js/base.js"></script>
+        <script src="../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

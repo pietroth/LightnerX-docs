@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>Communication and INER - LightnerX</title>
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../css/brands.min.css" rel="stylesheet">
+        <link href="../css/solid.min.css" rel="stylesheet">
+        <link href="../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="..">LightnerX</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item">
+                                <a href=".." class="nav-link">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../setup/" class="nav-link">Setup</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../first-steps/" class="nav-link">First steps</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="./" class="nav-link active" aria-current="page">Communication and INER</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../api/" class="nav-link">API reference</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../first-steps/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../api/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#communication-and-the-iner-protocol" class="nav-link">Communication and the INER protocol</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#iner-and-lightnerx" class="nav-link">INER and LightnerX</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#roles" class="nav-link">Roles</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#message-types" class="nav-link">Message types</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#binary-representation" class="nav-link">Binary representation</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#identifiers" class="nav-link">Identifiers</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#network-destinations" class="nav-link">Network destinations</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#receiving-flow" class="nav-link">Receiving flow</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#sending-flow" class="nav-link">Sending flow</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="communication-and-the-iner-protocol">Communication and the INER protocol<a class="headerlink" href="#communication-and-the-iner-protocol" title="Permanent link">&para;</a></h1>
+<h2 id="iner-and-lightnerx">INER and LightnerX<a class="headerlink" href="#iner-and-lightnerx" title="Permanent link">&para;</a></h2>
+<p>INER is a semantic protocol. It defines the meaning and organization of messages, but does not define sockets, addressing, threads, or the transmission mechanism.</p>
+<p>LightnerX implements the protocol's message types and provides networking components based on GameNetworkingSockets. The division is:</p>
+<table>
+<thead>
+<tr>
+<th>Responsibility</th>
+<th>INER</th>
+<th>LightnerX</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Meaning of Event, Response, Intention, and Notification</td>
+<td>Yes</td>
+<td>Represented by C++ types</td>
+</tr>
+<tr>
+<td>Message identification</td>
+<td>Yes</td>
+<td><code>MBT::type</code>, <code>correlationId</code>, and <code>status</code> fields</td>
+</tr>
+<tr>
+<td>Header encoding</td>
+<td>Yes</td>
+<td>Packed structures and converters</td>
+</tr>
+<tr>
+<td>Sockets and connections</td>
+<td>No</td>
+<td><code>Server</code>, <code>Client</code>, and GameNetworkingSockets</td>
+</tr>
+<tr>
+<td>Execution model</td>
+<td>No</td>
+<td>Chosen by the application</td>
+</tr>
+</tbody>
+</table>
+<h2 id="roles">Roles<a class="headerlink" href="#roles" title="Permanent link">&para;</a></h2>
+<h3 id="authority">Authority<a class="headerlink" href="#authority" title="Permanent link">&para;</a></h3>
+<p>The Authority controls internal states. It receives <code>Intention</code> and <code>Notification</code> from the Obedient and sends <code>Event</code> and <code>Response</code>.</p>
+<p>In LightnerX, the server typically interprets received messages with:</p>
+<pre><code class="language-cpp">interpreter.obedientInterpret(bytes, registry, connection, connections);
+</code></pre>
+<h3 id="obedient">Obedient<a class="headerlink" href="#obedient" title="Permanent link">&para;</a></h3>
+<p>The Obedient sends intentions to the Authority and receives information about occurrences and results.</p>
+<p>In LightnerX, the client typically interprets received messages with:</p>
+<pre><code class="language-cpp">interpreter.authorityInterpret(bytes);
+</code></pre>
+<h2 id="message-types">Message types<a class="headerlink" href="#message-types" title="Permanent link">&para;</a></h2>
+<h3 id="event">Event<a class="headerlink" href="#event" title="Permanent link">&para;</a></h3>
+<p><code>Event</code> communicates an occurrence from the Authority. Its header contains:</p>
+<ul>
+<li><code>BaseProtocol::size</code>;</li>
+<li><code>MBT::type</code>, used as <code>type_id</code>.</li>
+</ul>
+<p>The payload, when present, follows the header.</p>
+<h3 id="response">Response<a class="headerlink" href="#response" title="Permanent link">&para;</a></h3>
+<p><code>Response</code> relates the result to an intention through <code>correlationId</code> and contains a <code>status</code>.</p>
+<p>The statuses are exposed by constants in the <code>lightnerx.communication.response</code> module:</p>
+<table>
+<thead>
+<tr>
+<th>Constant</th>
+<th style="text-align: right;">Value</th>
+<th>Meaning</th>
+<th>Type used by LightnerX</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>APPROVED_RESPONSE</code></td>
+<td style="text-align: right;"><code>0</code></td>
+<td>intention fully approved</td>
+<td><code>Response</code></td>
+</tr>
+<tr>
+<td><code>DENIED_RESPONSE</code></td>
+<td style="text-align: right;"><code>1</code></td>
+<td>intention denied</td>
+<td><code>UnsuccessfulResponse</code></td>
+</tr>
+<tr>
+<td><code>PARTIALLY_APPROVED_RESPONSE</code></td>
+<td style="text-align: right;"><code>2</code></td>
+<td>intention partially applied</td>
+<td><code>UnsuccessfulResponse</code></td>
+</tr>
+<tr>
+<td><code>FAILURE_RESPONSE</code></td>
+<td style="text-align: right;"><code>3</code></td>
+<td>internal error during processing</td>
+<td><code>Response</code></td>
+</tr>
+</tbody>
+</table>
+<p>A failure does not necessarily mean that the intention was denied; the application may decide to try again. <code>UnsuccessfulResponse</code> adds <code>reasonCode</code> to the header of denied or partially approved responses. For partial approval, the meaning of the payload is defined by the application.</p>
+<h3 id="intention">Intention<a class="headerlink" href="#intention" title="Permanent link">&para;</a></h3>
+<p><code>Intention</code> requests that the Authority perform an action. Its header contains:</p>
+<ul>
+<li><code>BaseProtocol::size</code>;</li>
+<li><code>MBT::type</code>;</li>
+<li><code>correlationId</code>.</li>
+</ul>
+<p>The intention's payload follows this header.</p>
+<h3 id="notification">Notification<a class="headerlink" href="#notification" title="Permanent link">&para;</a></h3>
+<p><code>Notification</code> communicates information to the Authority without requiring state validation, since it does not request a change to the Authority's internal states. Its header contains <code>size</code> and <code>type</code>, followed by the optional payload.</p>
+<p>On the server, <code>NotificationRegistry</code> specifies which <code>type_id</code> values should be interpreted as <code>Notification</code>:</p>
+<pre><code class="language-cpp">import std;
+import lightnerx.communication.notification;
+
+void registerNotifications(lightnerx::communication::NotificationRegistry&amp; registry) {
+    registry.registerId(47);
+    registry.registerIds(std::unordered_set&lt;std::uint16_t&gt;{99, 100});
+}
+</code></pre>
+<p>The <code>type_id</code> values are defined by the application. There is no universal table of INER types. When receiving messages from the Obedient, registered IDs identify notifications; the others identify intentions. To send notifications, use <code>notification2OutboundMessage</code>.</p>
+<h2 id="binary-representation">Binary representation<a class="headerlink" href="#binary-representation" title="Permanent link">&para;</a></h2>
+<p>Header structures are packed without additional padding using <code>#pragma pack(push, 1)</code>. The converters copy fields in the machine's native representation; participants must use a compatible representation for these fields and agree on the payload format.</p>
+<h3 id="messages-from-the-authority">Messages from the Authority<a class="headerlink" href="#messages-from-the-authority" title="Permanent link">&para;</a></h3>
+<p>The first field uses a combined value: the least significant bit indicates whether the message is a <code>Response</code>, and the remaining fifteen bits represent the size.</p>
+<table>
+<thead>
+<tr>
+<th>Message</th>
+<th>Header</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Event</code></td>
+<td>2 bytes of combined <code>size</code> + 2 bytes of <code>type</code></td>
+<td>variable payload</td>
+</tr>
+<tr>
+<td><code>Response</code></td>
+<td>2 bytes of combined <code>size</code> + 2 bytes of <code>correlationId</code> + 1 byte of <code>status</code></td>
+<td>no payload for the statuses represented by <code>Response</code></td>
+</tr>
+<tr>
+<td><code>UnsuccessfulResponse</code></td>
+<td><code>Response</code> structure + 2 bytes of <code>reasonCode</code></td>
+<td>variable payload for a partial response</td>
+</tr>
+</tbody>
+</table>
+<p>When constructing the header, the combined value takes the form:</p>
+<pre><code class="language-text">Event:    (total_size &lt;&lt; 1) | 0
+Response: (total_size &lt;&lt; 1) | 1
+</code></pre>
+<p>The interpreter retrieves the size with <code>base &gt;&gt; 1</code> and distinguishes <code>Event</code> from <code>Response</code> with <code>base &amp; 1</code>. In the headers delivered to the callback, <code>protocol.size</code> already contains the decoded size, without the type bit.</p>
+<h3 id="messages-from-the-obedient">Messages from the Obedient<a class="headerlink" href="#messages-from-the-obedient" title="Permanent link">&para;</a></h3>
+<p>In messages from the Obedient, <code>size</code> directly represents the total message size.</p>
+<table>
+<thead>
+<tr>
+<th>Message</th>
+<th>Header</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Notification</code></td>
+<td>2 bytes of <code>size</code> + 2 bytes of <code>type</code></td>
+<td>variable payload</td>
+</tr>
+<tr>
+<td><code>Intention</code></td>
+<td>2 bytes of <code>size</code> + 2 bytes of <code>type</code> + 2 bytes of <code>correlationId</code></td>
+<td>variable payload</td>
+</tr>
+</tbody>
+</table>
+<p>The specified size must include the header and payload. The converters copy the header and payload into a <code>SteamNetworkingMessage_t</code>; they do not automatically construct the semantic value of the <code>size</code> field.</p>
+<h2 id="identifiers">Identifiers<a class="headerlink" href="#identifiers" title="Permanent link">&para;</a></h2>
+<ul>
+<li><code>type_id</code> identifies the semantic type defined by the application and appears in the code as <code>MBT::type</code>.</li>
+<li><code>correlationId</code> relates a response to its corresponding intention.</li>
+<li>The ID received in the server's interpreted message callback is the internal identifier assigned by <code>ConnectionManager</code>.</li>
+</ul>
+<p>This internal ID belongs to the connection management implementation and is not an INER protocol field. The name <code>originId</code> does not designate a protocol field either. Network destinations use <code>HSteamNetConnection</code> handles, which are distinct from internal IDs and semantic identifiers.</p>
+<h2 id="network-destinations">Network destinations<a class="headerlink" href="#network-destinations" title="Permanent link">&para;</a></h2>
+<p><code>lightnerx::network::Target</code>, exported by the <code>lightnerx.network.target</code> module, defines where a queued message will be sent. The static factories create the destination description:</p>
+<table>
+<thead>
+<tr>
+<th>Factory</th>
+<th>Destination</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Target::single(connection)</code></td>
+<td>a specific connection</td>
+</tr>
+<tr>
+<td><code>Target::group(connections)</code></td>
+<td>all connections in the provided vector</td>
+</tr>
+<tr>
+<td><code>Target::broadcast()</code></td>
+<td>all connections registered in <code>ConnectionManager</code></td>
+</tr>
+<tr>
+<td><code>Target::broadcast(exceptions)</code></td>
+<td>all connections registered in <code>ConnectionManager</code>, except the specified handles</td>
+</tr>
+</tbody>
+</table>
+<p><code>Target::group</code> stores the explicit selection of handles. Broadcast queries the <code>ConnectionManager</code> passed to <code>flushAll</code> at flush time, using the mappings maintained by the application. Its exceptions are also <code>HSteamNetConnection</code> handles.</p>
+<h2 id="receiving-flow">Receiving flow<a class="headerlink" href="#receiving-flow" title="Permanent link">&para;</a></h2>
+<pre><code class="language-text">Network -&gt; Server callback -&gt; obedientInterpret -&gt; application callback
+Network -&gt; Client callback -&gt; authorityInterpret -&gt; application callback
+</code></pre>
+<p><code>MessageInterpreter</code> delivers a <code>lightnerx::communication::Message</code> whose <code>header</code> contains the concrete type in a <code>std::variant</code> and whose <code>payload</code> is a <code>std::span&lt;const std::byte&gt;</code>.</p>
+<p>Callbacks run during the interpretation call. The header is delivered by value, but the span only references the received bytes. In the flow with <code>Server</code> or <code>Client</code>, these bytes are released after the receive callbacks. To retain the payload, copy its bytes during the callback; copying only <code>Message</code> keeps a reference to the same buffer.</p>
+<h2 id="sending-flow">Sending flow<a class="headerlink" href="#sending-flow" title="Permanent link">&para;</a></h2>
+<p>The usual flow is:</p>
+<ol>
+<li>Initialize the network and call <code>initMessagesBatcher(capacity)</code> before queuing the first message.</li>
+<li>Construct the header with the total message size.</li>
+<li>Create a <code>lightnerx::network::Target</code>.</li>
+<li>Use the corresponding converter to obtain a <code>lightnerx::network::OutboundMessage</code>.</li>
+<li>Pass the object to <code>queueMessage(std::move(outbound))</code>, transferring ownership of the message and destination.</li>
+<li>Check the queuing result and call <code>flushAll(connectionManager)</code> at the time chosen by the application. Releasing the message becomes the batcher's responsibility, including when queuing returns an error.</li>
+</ol>
+<p>Example of an <code>Event</code> from the Authority with one byte of payload defined by the application. The function assumes that the network and batcher have been initialized and supports broadcast with or without exceptions:</p>
+<pre><code class="language-cpp">#include &quot;steam/steamnetworkingtypes.h&quot;
+
+import std;
+import lightnerx.communication.event;
+import lightnerx.communication.message;
+import lightnerx.network.connection_manager;
+import lightnerx.network.message_batch;
+import lightnerx.network.target;
+
+std::expected&lt;void, std::error_code&gt; broadcastEvent(
+    const lightnerx::network::ConnectionManager&amp; connections,
+    std::vector&lt;HSteamNetConnection&gt; exceptions = {}
+) {
+    const std::array payload{std::byte{0x01}};
+    const auto totalSize = sizeof(lightnerx::communication::Event) + payload.size();
+    const lightnerx::communication::Event event{
+        static_cast&lt;std::uint16_t&gt;(totalSize &lt;&lt; 1),
+        47
+    };
+
+    auto outbound = lightnerx::communication::event2OutboundMessage(
+        event,
+        payload,
+        lightnerx::network::Target::broadcast(std::move(exceptions))
+    );
+
+    const auto queued = lightnerx::network::queueMessage(std::move(outbound));
+
+    if (!queued) {
+        return queued;
+    }
+    return lightnerx::network::flushAll(connections);
+}
+</code></pre>
+<p>Call <code>broadcastEvent(connections)</code> for everyone or <code>broadcastEvent(connections, {connectionToSkip})</code> to exclude a handle, checking the returned <code>std::expected</code>.</p>
+<h3 id="what-each-step-does">What each step does<a class="headerlink" href="#what-each-step-does" title="Permanent link">&para;</a></h3>
+<p><code>queueMessage</code> receives the <code>OutboundMessage</code> from the converter and stores the same message with its destination, without allocating another message or copying the bytes. The call consumes the message: on success, the batcher keeps it until the flush; if the queue is full, it releases it immediately. The caller must not call <code>Release()</code> or reuse the message after passing it to the queue. A null pointer is rejected with <code>invalid_argument</code>.</p>
+<p><code>flushAll</code> iterates over pending messages, routes each one according to its destination, and releases the message received from the converter with <code>Release()</code>. All entries are processed and the queue is emptied even when send errors occur. The return value indicates success or the last error encountered among these operations.</p>
+<p>Batching lets you accumulate multiple messages before a flush. Each entry remains a separate message; payloads are not concatenated. The application decides when to flush, for example at the end of an update. Success indicates that the transport accepted the send operations, without confirming processing by the recipient.</p>
+<p>For <code>Event</code> and <code>Response</code>, the <code>size</code> field must use the combined value described above. For <code>Intention</code> and <code>Notification</code>, it uses the total size directly.</p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../js/base.js"></script>
+        <script src="../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

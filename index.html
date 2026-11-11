@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Documentation for the LightnerX C++ library and INER protocol.">
+        
+        
+        <link rel="shortcut icon" href="img/favicon.ico">
+        <title>LightnerX</title>
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/fontawesome.min.css" rel="stylesheet">
+        <link href="css/brands.min.css" rel="stylesheet">
+        <link href="css/solid.min.css" rel="stylesheet">
+        <link href="css/v4-font-face.min.css" rel="stylesheet">
+        <link href="css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body class="homepage">
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href=".">LightnerX</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item">
+                                <a href="." class="nav-link active" aria-current="page">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="setup/" class="nav-link">Setup</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="first-steps/" class="nav-link">First steps</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="communication/" class="nav-link">Communication and INER</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="api/" class="nav-link">API reference</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" class="nav-link disabled">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="setup/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#lightnerx" class="nav-link">LightnerX</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#library-not-a-framework" class="nav-link">Library, not a framework</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#key-concepts" class="nav-link">Key concepts</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#navigation" class="nav-link">Navigation</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#server-example" class="nav-link">Server example</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#client-example" class="nav-link">Client example</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#complete-code" class="nav-link">Complete code</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="lightnerx">LightnerX<a class="headerlink" href="#lightnerx" title="Permanent link">&para;</a></h1>
+<p>LightnerX is a modular static C++ library for building applications that communicate using the INER semantic protocol. The CMake project provides the <code>LightnerX</code> target; it neither produces nor requires its own executable. The library provides types for representing messages, interpreters, callbacks, connection management, and a transport layer based on GameNetworkingSockets.</p>
+<p>INER defines the meaning of messages exchanged between an Authority and an Obedient. It does not define sockets, connections, or an execution model. These capabilities are provided by LightnerX's networking components and can be connected to the application according to the developer's needs.</p>
+<h2 id="library-not-a-framework">Library, not a framework<a class="headerlink" href="#library-not-a-framework" title="Permanent link">&para;</a></h2>
+<p>LightnerX provides reusable components. The consuming application decides:</p>
+<ul>
+<li>when to initialize and shut down components;</li>
+<li>how to run <code>update()</code>;</li>
+<li>which threads to use;</li>
+<li>how to organize the connection lifecycle;</li>
+<li>which modules to use or replace with its own implementations.</li>
+</ul>
+<p>For example, you can pass bytes from your own transport to <code>lightnerx::communication::MessageInterpreter</code>. To interpret messages from the Obedient, <code>obedientInterpret</code> takes a <code>lightnerx::network::ConnectionManager</code>; an application that manages connections on its own must maintain the mapping between handles and IDs used by the interpreter in that object.</p>
+<h2 id="key-concepts">Key concepts<a class="headerlink" href="#key-concepts" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Authority:</strong> controls internal states and receives intentions from the Obedient.</li>
+<li><strong>Obedient:</strong> sends intentions to the Authority and receives events and responses.</li>
+<li><strong>Event:</strong> an occurrence communicated by the Authority.</li>
+<li><strong>Response:</strong> the result of an intention sent by the Obedient.</li>
+<li><strong>Intention:</strong> an action request sent to the Authority.</li>
+<li><strong>Notification:</strong> information sent to the Authority without requesting a state change.</li>
+</ul>
+<p>In LightnerX, the application connects components through callbacks: the network delivers bytes, and <code>MessageInterpreter</code> interprets those bytes according to the direction of communication. When sending, <code>lightnerx::network::Target</code> lets you select a connection, a group, or a broadcast with or without exceptions.</p>
+<h2 id="navigation">Navigation<a class="headerlink" href="#navigation" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="setup/">Setup</a></li>
+<li><a href="first-steps/">First steps</a></li>
+<li><a href="communication/">Communication and the INER protocol</a></li>
+<li><a href="api/">API reference</a></li>
+</ul>
+<h2 id="server-example">Server example<a class="headerlink" href="#server-example" title="Permanent link">&para;</a></h2>
+<p>This example receives notifications from the client and sends the text <code>Hello, World!</code> in events to registered connections. The snippets below make up the complete program at the end of the README; the statements belong inside the main function, after the imports shown in the complete code.</p>
+<h3 id="create-the-components">Create the components<a class="headerlink" href="#create-the-components" title="Permanent link">&para;</a></h3>
+<p>The manager maps handles to internal client IDs. Register ID <code>47</code> so that the interpreter recognizes notifications sent by the client in this example.</p>
+<pre><code class="language-cpp">using namespace std::chrono_literals;
+namespace network = lightnerx::network;
+namespace communication = lightnerx::communication;
+
+network::Server server;
+network::ConnectionManager connections{30, 30};
+communication::MessageInterpreter interpreter;
+communication::NotificationRegistry notifications;
+notifications.registerId(47);
+</code></pre>
+<h3 id="track-connections">Track connections<a class="headerlink" href="#track-connections" title="Permanent link">&para;</a></h3>
+<p>The callbacks keep the manager up to date. If registering a connection fails, the server requests its disconnection.</p>
+<pre><code class="language-cpp">server.addClientConnectedCallback([&amp;](HSteamNetConnection connection) {
+    if (!connections.add(connection)) {
+        if (const auto result = server.disconnectConnection(connection, false); !result) {
+            std::println(&quot;Failed to disconnect: {}&quot;, result.error().message());
+        }
+    }
+});
+
+server.addClientDisconnectedCallback([&amp;](HSteamNetConnection connection) {
+    if (const auto id = connections.getClientId(connection)) {
+        connections.remove(*id);
+    }
+});
+</code></pre>
+<h3 id="receive-messages">Receive messages<a class="headerlink" href="#receive-messages" title="Permanent link">&para;</a></h3>
+<p>Forward the received bytes to <code>obedientInterpret</code>. The interpreter's callback delivers the message and the internal client ID. In this example, the payload is text and is read during the callback.</p>
+<pre><code class="language-cpp">server.addClientReceivedMessageCallback(
+    [&amp;](std::span&lt;const std::byte&gt; bytes, HSteamNetConnection connection) {
+        interpreter.obedientInterpret(bytes, notifications, connection, connections);
+    }
+);
+
+interpreter.addObedientInterpretedMessageCallback(
+    [](communication::Message message, std::uint16_t clientId) {
+        const std::string_view text{
+            reinterpret_cast&lt;const char*&gt;(message.payload.data()), message.payload.size()
+        };
+        std::println(&quot;Client {}: {}&quot;, clientId, text);
+    }
+);
+</code></pre>
+<h3 id="start-the-server">Start the server<a class="headerlink" href="#start-the-server" title="Permanent link">&para;</a></h3>
+<p>Start listening on port <code>41333</code>, with an established connection timeout of <code>3000</code> ms, and reserve one slot for the batcher's pending message.</p>
+<pre><code class="language-cpp">if (const auto result = server.start(41333, 3000); !result) {
+    std::println(&quot;Failed to start: {}&quot;, result.error().message());
+    return 1;
+}
+network::initMessagesBatcher(1);
+</code></pre>
+<h3 id="prepare-an-event">Prepare an event<a class="headerlink" href="#prepare-an-event" title="Permanent link">&para;</a></h3>
+<p>Convert the text to bytes and include the header and payload in the total size. For <code>Event</code>, the size is shifted one bit to the left. Type <code>990</code> is chosen by the application.</p>
+<pre><code class="language-cpp">const std::string_view greeting = &quot;Hello, World!&quot;;
+const auto payload = std::as_bytes(std::span{greeting});
+const communication::Event event{
+    // The least significant bit distinguishes Event from Response.
+    static_cast&lt;std::uint16_t&gt;((sizeof(communication::Event) + payload.size()) &lt;&lt; 1),
+    990
+};
+</code></pre>
+<h3 id="update-and-send">Update and send<a class="headerlink" href="#update-and-send" title="Permanent link">&para;</a></h3>
+<p><code>update()</code> processes the network. The converter creates an <code>OutboundMessage</code>, which is passed directly to <code>queueMessage</code>. <code>Target::broadcast()</code> selects the connections registered at flush time.</p>
+<pre><code class="language-cpp">while (true) {
+    if (const auto result = server.update(); !result) {
+        std::println(&quot;Failed to update: {}&quot;, result.error().message());
+        break;
+    }
+    if (const auto result = network::queueMessage(communication::event2OutboundMessage(
+            event, payload, network::Target::broadcast())); !result) {
+        std::println(&quot;Failed to queue: {}&quot;, result.error().message());
+        break;
+    }
+    if (const auto result = network::flushAll(connections); !result) {
+        std::println(&quot;Failed to send: {}&quot;, result.error().message());
+        break;
+    }
+    std::this_thread::sleep_for(3s);
+}
+</code></pre>
+<p><code>queueMessage</code> takes ownership of the message, including when it returns an error; the application does not call <code>Release()</code> afterward. <code>flushAll</code> processes the queue and releases the messages. The three-second interval is a choice made for this example; the application defines its own update rate.</p>
+<h3 id="shut-down-the-server">Shut down the server<a class="headerlink" href="#shut-down-the-server" title="Permanent link">&para;</a></h3>
+<p>After exiting the loop due to an error, close the server. Returning <code>1</code> signals an exit due to failure in this example.</p>
+<pre><code class="language-cpp">server.close();
+return 1;
+</code></pre>
+<h2 id="client-example">Client example<a class="headerlink" href="#client-example" title="Permanent link">&para;</a></h2>
+<p>The client connects to the server at <code>127.0.0.1:41333</code>, prints the received events, and sends a notification with the same text. Run the server and client in separate processes.</p>
+<h3 id="create-the-components_1">Create the components<a class="headerlink" href="#create-the-components_1" title="Permanent link">&para;</a></h3>
+<p>The empty manager satisfies the <code>flushAll</code> signature. Sending to the server individually uses the client's connection handle directly.</p>
+<pre><code class="language-cpp">using namespace std::chrono_literals;
+namespace network = lightnerx::network;
+namespace communication = lightnerx::communication;
+
+network::Client client;
+network::ConnectionManager connections{0, 0}; // Required by flush, without broadcast.
+communication::MessageInterpreter interpreter;
+</code></pre>
+<h3 id="receive-messages-from-the-server">Receive messages from the server<a class="headerlink" href="#receive-messages-from-the-server" title="Permanent link">&para;</a></h3>
+<p>Forward the bytes to <code>authorityInterpret</code>, which interprets messages from the Authority. The callback below prints the text payload agreed upon by these examples and handles empty payloads.</p>
+<pre><code class="language-cpp">client.addServerReceivedMessageCallback([&amp;](std::span&lt;const std::byte&gt; bytes) {
+    interpreter.authorityInterpret(bytes);
+});
+
+interpreter.addAuthorityInterpretedMessageCallback([](communication::Message message) {
+    const auto text = message.payload.empty() ? std::string_view{} : std::string_view{
+        reinterpret_cast&lt;const char*&gt;(message.payload.data()), message.payload.size()
+    };
+    std::println(&quot;Server: {}&quot;, text);
+});
+</code></pre>
+<p>The callbacks use the bytes during the call. To retain a received payload, copy its bytes into application storage before returning.</p>
+<h3 id="start-and-connect">Start and connect<a class="headerlink" href="#start-and-connect" title="Permanent link">&para;</a></h3>
+<p>Initialize the client, request a connection to the server, and reserve space in the batcher. The connection will be tracked during calls to <code>update()</code>.</p>
+<pre><code class="language-cpp">if (const auto result = client.start(); !result) {
+    std::println(&quot;Failed to start: {}&quot;, result.error().message());
+    return 1;
+}
+if (const auto result = client.connect(&quot;127.0.0.1&quot;, 41333); !result) {
+    std::println(&quot;Failed to connect: {}&quot;, result.error().message());
+    return 1;
+}
+network::initMessagesBatcher(1);
+</code></pre>
+<h3 id="prepare-a-notification">Prepare a notification<a class="headerlink" href="#prepare-a-notification" title="Permanent link">&para;</a></h3>
+<p><code>Notification</code> uses the total size directly, without bit shifting. ID <code>47</code> corresponds to the registration made on the server.</p>
+<pre><code class="language-cpp">const std::string_view greeting = &quot;Hello, World!&quot;;
+const auto payload = std::as_bytes(std::span{greeting});
+const communication::Notification notification{
+    static_cast&lt;std::uint16_t&gt;(sizeof(communication::Notification) + payload.size()),
+    47 // The server must register this ID in NotificationRegistry.
+};
+</code></pre>
+<h3 id="update-and-send-to-the-server">Update and send to the server<a class="headerlink" href="#update-and-send-to-the-server" title="Permanent link">&para;</a></h3>
+<p>Process up to 32 messages per update and send when <code>isConnected()</code> indicates an established connection. <code>Target::single</code> selects the server's handle.</p>
+<pre><code class="language-cpp">while (true) {
+    if (const auto result = client.update(32); !result) {
+        std::println(&quot;Failed to update: {}&quot;, result.error().message());
+        break;
+    }
+    if (client.isConnected()) {
+        if (const auto result = network::queueMessage(communication::notification2OutboundMessage(
+                notification, payload, network::Target::single(client.getServerHConn()))); !result) {
+            std::println(&quot;Failed to queue: {}&quot;, result.error().message());
+            break;
+        }
+        if (const auto result = network::flushAll(connections); !result) {
+            std::println(&quot;Failed to send: {}&quot;, result.error().message());
+            break;
+        }
+    }
+    std::this_thread::sleep_for(3000ms);
+}
+</code></pre>
+<h3 id="shut-down-the-client">Shut down the client<a class="headerlink" href="#shut-down-the-client" title="Permanent link">&para;</a></h3>
+<p>When exiting due to an error, the <code>Client</code> destructor closes the connection and shuts down the network. Returning <code>1</code> indicates the failure that interrupted the example.</p>
+<pre><code class="language-cpp">return 1; // The Client destructor closes the connection and shuts down the network.
+</code></pre>
+<h2 id="complete-code">Complete code<a class="headerlink" href="#complete-code" title="Permanent link">&para;</a></h2>
+<p>The programs below bring together the snippets presented above. The text payload, IDs, loop, and intervals are choices made by the consuming application.</p>
+<h3 id="complete-server">Complete server<a class="headerlink" href="#complete-server" title="Permanent link">&para;</a></h3>
+<pre><code class="language-cpp">#include &lt;steam/steamnetworkingtypes.h&gt;
+
+import std;
+
+import lightnerx.network.server;
+import lightnerx.network.connection_manager;
+import lightnerx.network.message_batch;
+import lightnerx.network.target;
+import lightnerx.communication.message;
+import lightnerx.communication.notification;
+import lightnerx.communication.event;
+
+int main() {
+    using namespace std::chrono_literals;
+    namespace network = lightnerx::network;
+    namespace communication = lightnerx::communication;
+
+    network::Server server;
+    network::ConnectionManager connections{30, 30};
+    communication::MessageInterpreter interpreter;
+    communication::NotificationRegistry notifications;
+    notifications.registerId(47);
+
+    server.addClientConnectedCallback([&amp;](HSteamNetConnection connection) {
+        if (!connections.add(connection)) {
+            if (const auto result = server.disconnectConnection(connection, false); !result) {
+                std::println(&quot;Failed to disconnect: {}&quot;, result.error().message());
+            }
+        }
+    });
+
+    server.addClientDisconnectedCallback([&amp;](HSteamNetConnection connection) {
+        if (const auto id = connections.getClientId(connection)) {
+            connections.remove(*id);
+        }
+    });
+
+    server.addClientReceivedMessageCallback(
+        [&amp;](std::span&lt;const std::byte&gt; bytes, HSteamNetConnection connection) {
+            interpreter.obedientInterpret(bytes, notifications, connection, connections);
+        }
+    );
+
+    interpreter.addObedientInterpretedMessageCallback(
+        [](communication::Message message, std::uint16_t clientId) {
+            const std::string_view text{
+                reinterpret_cast&lt;const char*&gt;(message.payload.data()), message.payload.size()
+            };
+            std::println(&quot;Client {}: {}&quot;, clientId, text);
+        }
+    );
+
+    if (const auto result = server.start(41333, 3000); !result) {
+        std::println(&quot;Failed to start: {}&quot;, result.error().message());
+        return 1;
+    }
+    network::initMessagesBatcher(1);
+
+    const std::string_view greeting = &quot;Hello, World!&quot;;
+    const auto payload = std::as_bytes(std::span{greeting});
+    const communication::Event event{
+        // The least significant bit distinguishes Event from Response.
+        static_cast&lt;std::uint16_t&gt;((sizeof(communication::Event) + payload.size()) &lt;&lt; 1),
+        990
+    };
+
+    while (true) {
+        if (const auto result = server.update(); !result) {
+            std::println(&quot;Failed to update: {}&quot;, result.error().message());
+            break;
+        }
+        if (const auto result = network::queueMessage(communication::event2OutboundMessage(
+                event, payload, network::Target::broadcast())); !result) {
+            std::println(&quot;Failed to queue: {}&quot;, result.error().message());
+            break;
+        }
+        if (const auto result = network::flushAll(connections); !result) {
+            std::println(&quot;Failed to send: {}&quot;, result.error().message());
+            break;
+        }
+        std::this_thread::sleep_for(3s);
+    }
+
+    server.close();
+    return 1;
+}
+</code></pre>
+<h3 id="complete-client">Complete client<a class="headerlink" href="#complete-client" title="Permanent link">&para;</a></h3>
+<pre><code class="language-cpp">#include &lt;steam/steamnetworkingtypes.h&gt;
+
+import std;
+
+import lightnerx.network.client;
+import lightnerx.network.connection_manager;
+import lightnerx.network.message_batch;
+import lightnerx.network.target;
+import lightnerx.communication.message;
+import lightnerx.communication.notification;
+
+int main() {
+    using namespace std::chrono_literals;
+    namespace network = lightnerx::network;
+    namespace communication = lightnerx::communication;
+
+    network::Client client;
+    network::ConnectionManager connections{0, 0}; // Required by flush, without broadcast.
+    communication::MessageInterpreter interpreter;
+
+    client.addServerReceivedMessageCallback([&amp;](std::span&lt;const std::byte&gt; bytes) {
+        interpreter.authorityInterpret(bytes);
+    });
+
+    interpreter.addAuthorityInterpretedMessageCallback([](communication::Message message) {
+        const auto text = message.payload.empty() ? std::string_view{} : std::string_view{
+            reinterpret_cast&lt;const char*&gt;(message.payload.data()), message.payload.size()
+        };
+        std::println(&quot;Server: {}&quot;, text);
+    });
+
+    if (const auto result = client.start(); !result) {
+        std::println(&quot;Failed to start: {}&quot;, result.error().message());
+        return 1;
+    }
+    if (const auto result = client.connect(&quot;127.0.0.1&quot;, 41333); !result) {
+        std::println(&quot;Failed to connect: {}&quot;, result.error().message());
+        return 1;
+    }
+    network::initMessagesBatcher(1);
+
+    const std::string_view greeting = &quot;Hello, World!&quot;;
+    const auto payload = std::as_bytes(std::span{greeting});
+    const communication::Notification notification{
+        static_cast&lt;std::uint16_t&gt;(sizeof(communication::Notification) + payload.size()),
+        47 // The server must register this ID in NotificationRegistry.
+    };
+
+    while (true) {
+        if (const auto result = client.update(32); !result) {
+            std::println(&quot;Failed to update: {}&quot;, result.error().message());
+            break;
+        }
+        if (client.isConnected()) {
+            if (const auto result = network::queueMessage(communication::notification2OutboundMessage(
+                    notification, payload, network::Target::single(client.getServerHConn()))); !result) {
+                std::println(&quot;Failed to queue: {}&quot;, result.error().message());
+                break;
+            }
+            if (const auto result = network::flushAll(connections); !result) {
+                std::println(&quot;Failed to send: {}&quot;, result.error().message());
+                break;
+            }
+        }
+        std::this_thread::sleep_for(3000ms);
+    }
+
+    return 1; // The Client destructor closes the connection and shuts down the network.
+}
+</code></pre></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = ".",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="js/base.js"></script>
+        <script src="search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
+
+<!--
+MkDocs version : 1.6.1
+Build Date UTC : 2026-11-11 19:31:32.517871+00:00
+-->
