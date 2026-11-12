@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://pietroth.github.io/LightnerX-docs/sitemap.xml
