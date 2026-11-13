@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         
-        
+        <link rel="canonical" href="https://pietroth.github.io/LightnerX-docs/setup/">
         <link rel="shortcut icon" href="../img/favicon.ico">
         <title>Setup - LightnerX</title>
         <link href="../css/bootstrap.min.css" rel="stylesheet">
@@ -48,6 +48,9 @@
                             </li>
                             <li class="nav-item">
                                 <a href="../api/" class="nav-link">API reference</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../audit-fixes/" class="nav-link">Audit fixes</a>
                             </li>
                         </ul>
 
@@ -91,6 +94,18 @@
               <ul class="nav flex-column">
               </ul>
             </li>
+            <li class="nav-item" data-bs-level="2"><a href="#toolchain-and-build" class="nav-link">Toolchain and build</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#consuming-with-cmake" class="nav-link">Consuming with CMake</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#regression-tests-and-sanitizers" class="nav-link">Regression tests and sanitizers</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
               </ul>
             </li>
         </ul>
@@ -104,7 +119,74 @@
 <p>GameNetworkingSockets is maintained as a submodule in <code>external/GameNetworkingSockets</code>. After obtaining the repository, run the following from the LightnerX root directory:</p>
 <pre><code class="language-bash">git submodule update --init --recursive
 </code></pre>
-<p>This command retrieves GameNetworkingSockets and its recursive submodules in the state expected by LightnerX.</p></div>
+<p>This command retrieves GameNetworkingSockets and its recursive submodules in the state expected by LightnerX.</p>
+<h2 id="toolchain-and-build">Toolchain and build<a class="headerlink" href="#toolchain-and-build" title="Permanent link">&para;</a></h2>
+<p>LightnerX uses C++26 named modules and <code>import std</code>. The verified Linux toolchain
+is GCC 15.2 with its matching libstdc++, CMake 4.2.3 and Ninja 1.13.2. Install the
+GameNetworkingSockets prerequisites (including OpenSSL and Protobuf development
+packages and the Protobuf compiler) before configuring. Compilers and standard
+libraries without a C++26 <code>std</code> module are not supported by this configuration.</p>
+<pre><code class="language-bash">cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug
+cmake --build build --parallel 2
+</code></pre>
+<h2 id="consuming-with-cmake">Consuming with CMake<a class="headerlink" href="#consuming-with-cmake" title="Permanent link">&para;</a></h2>
+<p>The <code>LightnerX</code> target propagates C++26, GameNetworkingSockets headers, compile
+definitions and link requirements. Consumers should link only that target.
+CMake's experimental <code>import std</code> support must be enabled <strong>before the parent
+project's first <code>project()</code> call</strong>. This gate is specific to CMake 4.2; consult the
+installed CMake documentation before changing CMake versions.</p>
+<pre><code class="language-cmake">cmake_minimum_required(VERSION 4.2)
+set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD &quot;d0edc3af-4c50-42ea-a356-e2862fe7a444&quot;)
+set(CMAKE_CXX_MODULE_STD ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+project(MyGame LANGUAGES C CXX)
+
+add_subdirectory(external/LightnerX)
+add_executable(game main.cpp)
+target_link_libraries(game PRIVATE LightnerX)
+</code></pre>
+<pre><code class="language-cpp">#include &lt;steam/steamnetworkingsockets.h&gt;
+import std;
+import lightnerx.network.client;
+
+int main() {
+    lightnerx::network::Client client;
+    return client.start() ? 0 : 1;
+}
+</code></pre>
+<p>No prebuilt module binaries are distributed: the consumer and library must use
+compatible compiler, standard-library and module settings. The standalone
+<code>tests/consumer</code> project verifies this integration, including simultaneous imports
+of the client and transport modules.</p>
+<h2 id="regression-tests-and-sanitizers">Regression tests and sanitizers<a class="headerlink" href="#regression-tests-and-sanitizers" title="Permanent link">&para;</a></h2>
+<p>The regression suite also requires Python 3 for deterministic fault-injection
+tests that compile the production implementation with a small transport mock.</p>
+<pre><code class="language-bash">cmake -S . -B build/tests -G Ninja -DCMAKE_BUILD_TYPE=Debug -DLIGHTNERX_BUILD_TESTS=ON
+cmake --build build/tests --parallel 2
+ctest --test-dir build/tests --output-on-failure
+</code></pre>
+<p>With the tested GCC 15.2 toolchain, instrument the modules with AddressSanitizer:</p>
+<pre><code class="language-bash">cmake -S . -B build/sanitizers -G Ninja -DCMAKE_BUILD_TYPE=Debug \
+  -DLIGHTNERX_BUILD_TESTS=ON -DLIGHTNERX_SANITIZERS=address
+cmake --build build/sanitizers --parallel 2
+ctest --test-dir build/sanitizers --output-on-failure
+</code></pre>
+<p>This option instruments LightnerX and its consumers, including the tests; it does
+not instrument the standard-library module or third-party libraries. On a
+compatible compiler, <code>-DLIGHTNERX_SANITIZERS=address,undefined</code> enables both ASan
+and UBSan. GCC 15.2 hits an internal compiler error when compiling these modules
+with UBSan, even if <code>std</code> itself is not instrumented. The supplemental Python
+fault tests compile the production bodies without module declarations and run
+both sanitizers whenever <code>LIGHTNERX_SANITIZERS</code> is enabled; they supplement the
+real module tests rather than replacing them.</p>
+<p>Sanitizer diagnostics fail the test immediately. The lifecycle fault test links
+the real GNS library, which is built with <code>-fno-rtti</code>; only that supplemental test
+disables UBSan's <code>vptr</code> check. A raw GNS init/CreatePollGroup/Kill probe reproduces
+the incompatible check without using LightnerX. ASan and the other UBSan checks
+remain enabled. The allocation and ID mocks do not need this exclusion.</p>
+<p>Network integration tests require local UDP socket access. Restricted sandboxes
+may prevent those tests from completing; a build alone does not validate network
+behavior. Test assertions remain enabled in release configurations.</p></div>
             </div>
         </div>
 

@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         
-        
+        <link rel="canonical" href="https://pietroth.github.io/LightnerX-docs/first-steps/">
         <link rel="shortcut icon" href="../img/favicon.ico">
         <title>First steps - LightnerX</title>
         <link href="../css/bootstrap.min.css" rel="stylesheet">
@@ -48,6 +48,9 @@
                             </li>
                             <li class="nav-item">
                                 <a href="../api/" class="nav-link">API reference</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../audit-fixes/" class="nav-link">Audit fixes</a>
                             </li>
                         </ul>
 
@@ -265,8 +268,8 @@ int main() {
 <p><code>connect()</code> initiates the connection, and <code>update()</code> processes network callbacks and available messages. <code>isConnected()</code> can be used to query the state observed by the client.</p>
 <h2 id="execution-model">Execution model<a class="headerlink" href="#execution-model" title="Permanent link">&para;</a></h2>
 <p>The <code>server.update()</code> and <code>client.update()</code> methods are called by the application. They can run on the main thread, on a dedicated thread, or within the consuming project's existing execution loop.</p>
-<p>The library does not require a specific number of threads or a fixed interval between updates.</p>
-<p>Receive callbacks run during <code>update()</code>, and interpretation callbacks run on the thread that calls the interpreter. When sharing components across threads, handle synchronization in the application. For the batcher, serialize initialization, queuing, and flush calls, which operate on the same queue.</p>
+<p>The library does not require a specific number of threads or a fixed interval between updates. Run these server and client examples in separate processes: exactly one started wrapper owns networking in each process. Wrappers cannot be copied or moved.</p>
+<p>Receive callbacks run during <code>update()</code>, and interpretation callbacks run on the thread that calls the interpreter. When sharing components across threads, handle synchronization in the application. For the batcher, serialize initialization, queuing, clearing and flush calls, which operate on the same queue. Callback exceptions propagate after resource cleanup; catch them around <code>update()</code> if the application intends to continue. See <a href="../api/#validation-and-callback-behavior">callback behavior</a> for supported reentrant operations.</p>
 <h2 id="batch-sending">Batch sending<a class="headerlink" href="#batch-sending" title="Permanent link">&para;</a></h2>
 <p>With the network initialized by <code>Server::start()</code>, <code>Client::start()</code>, or <code>lightnerx::network::networkInit()</code>, reserve space in the batcher before queuing the first message. Import <code>lightnerx.network.message_batch</code> and call:</p>
 <pre><code class="language-cpp">lightnerx::network::initMessagesBatcher(64);

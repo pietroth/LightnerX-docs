@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Documentation for the LightnerX C++ library and INER protocol.">
         
-        
+        <link rel="canonical" href="https://pietroth.github.io/LightnerX-docs/">
         <link rel="shortcut icon" href="img/favicon.ico">
         <title>LightnerX</title>
         <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -49,6 +49,9 @@
                             <li class="nav-item">
                                 <a href="api/" class="nav-link">API reference</a>
                             </li>
+                            <li class="nav-item">
+                                <a href="audit-fixes/" class="nav-link">Audit fixes</a>
+                            </li>
                         </ul>
 
                     <ul class="nav navbar-nav ms-md-auto">
@@ -85,32 +88,38 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-bs-level="1"><a href="#lightnerx" class="nav-link">LightnerX</a>
-              <ul class="nav flex-column">
             <li class="nav-item" data-bs-level="2"><a href="#library-not-a-framework" class="nav-link">Library, not a framework</a>
               <ul class="nav flex-column">
               </ul>
             </li>
+
             <li class="nav-item" data-bs-level="2"><a href="#key-concepts" class="nav-link">Key concepts</a>
               <ul class="nav flex-column">
               </ul>
             </li>
+
             <li class="nav-item" data-bs-level="2"><a href="#navigation" class="nav-link">Navigation</a>
               <ul class="nav flex-column">
               </ul>
             </li>
+
             <li class="nav-item" data-bs-level="2"><a href="#server-example" class="nav-link">Server example</a>
               <ul class="nav flex-column">
               </ul>
             </li>
+
             <li class="nav-item" data-bs-level="2"><a href="#client-example" class="nav-link">Client example</a>
               <ul class="nav flex-column">
               </ul>
             </li>
+
             <li class="nav-item" data-bs-level="2"><a href="#complete-code" class="nav-link">Complete code</a>
               <ul class="nav flex-column">
               </ul>
             </li>
+
+            <li class="nav-item" data-bs-level="2"><a href="#runtime-contracts" class="nav-link">Runtime contracts</a>
+              <ul class="nav flex-column">
               </ul>
             </li>
         </ul>
@@ -118,7 +127,7 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="lightnerx">LightnerX<a class="headerlink" href="#lightnerx" title="Permanent link">&para;</a></h1>
+<p><img alt="LightnerX" src="LightnerX%20Framed%20Wordmark.png" /></p>
 <p>LightnerX is a modular static C++ library for building applications that communicate using the INER semantic protocol. The CMake project provides the <code>LightnerX</code> target; it neither produces nor requires its own executable. The library provides types for representing messages, interpreters, callbacks, connection management, and a transport layer based on GameNetworkingSockets.</p>
 <p>INER defines the meaning of messages exchanged between an Authority and an Obedient. It does not define sockets, connections, or an execution model. These capabilities are provided by LightnerX's networking components and can be connected to the application according to the developer's needs.</p>
 <h2 id="library-not-a-framework">Library, not a framework<a class="headerlink" href="#library-not-a-framework" title="Permanent link">&para;</a></h2>
@@ -130,7 +139,7 @@
 <li>how to organize the connection lifecycle;</li>
 <li>which modules to use or replace with its own implementations.</li>
 </ul>
-<p>For example, you can pass bytes from your own transport to <code>lightnerx::communication::MessageInterpreter</code>. To interpret messages from the Obedient, <code>obedientInterpret</code> takes a <code>lightnerx::network::ConnectionManager</code>; an application that manages connections on its own must maintain the mapping between handles and IDs used by the interpreter in that object.</p>
+<p>For example, you can pass one complete INER message from your own transport to <code>lightnerx::communication::MessageInterpreter</code>. <code>authorityInterpret</code> does not require a connection. <code>obedientInterpret</code> requires a <code>lightnerx::network::ConnectionManager</code> registration: <code>add()</code> accepts only live GNS handles, so arbitrary identifiers from another transport are not supported by that path. The manager stores its own mapping and does not use GNS connection userdata.</p>
 <h2 id="key-concepts">Key concepts<a class="headerlink" href="#key-concepts" title="Permanent link">&para;</a></h2>
 <ul>
 <li><strong>Authority:</strong> controls internal states and receives intentions from the Obedient.</li>
@@ -140,6 +149,28 @@
 <li><strong>Intention:</strong> an action request sent to the Authority.</li>
 <li><strong>Notification:</strong> information sent to the Authority without requesting a state change.</li>
 </ul>
+<h3 id="iner-message-flow">INER message flow<a class="headerlink" href="#iner-message-flow" title="Permanent link">&para;</a></h3>
+<p>The INER protocol defines four message types exchanged between the Authority and the Obedient:</p>
+<pre><code class="language-mermaid">flowchart LR
+    A[&quot;🖥️ AUTHORITY&lt;br/&gt;Server&quot;]
+    O[&quot;💻 OBEDIENT&lt;br/&gt;Client&quot;]
+
+    A --&gt;|EVENT| O
+    A --&gt;|RESPONSE| O
+    O --&gt;|INTENTION| A
+    O --&gt;|NOTIFICATION| A
+
+    classDef authority fill:#123456,stroke:#2699ff,color:#fff,stroke-width:2px
+    classDef obedient fill:#302050,stroke:#a76bee,color:#fff,stroke-width:2px
+
+    class A authority
+    class O obedient
+
+    linkStyle 0 stroke:#2596ee,stroke-width:3px
+    linkStyle 1 stroke:#16a085,stroke-width:3px
+    linkStyle 2 stroke:#e69b27,stroke-width:3px
+    linkStyle 3 stroke:#a76bee,stroke-width:3px
+</code></pre>
 <p>In LightnerX, the application connects components through callbacks: the network delivers bytes, and <code>MessageInterpreter</code> interprets those bytes according to the direction of communication. When sending, <code>lightnerx::network::Target</code> lets you select a connection, a group, or a broadcast with or without exceptions.</p>
 <h2 id="navigation">Navigation<a class="headerlink" href="#navigation" title="Permanent link">&para;</a></h2>
 <ul>
@@ -470,7 +501,9 @@ int main() {
 
     return 1; // The Client destructor closes the connection and shuts down the network.
 }
-</code></pre></div>
+</code></pre>
+<h2 id="runtime-contracts">Runtime contracts<a class="headerlink" href="#runtime-contracts" title="Permanent link">&para;</a></h2>
+<p>One started <code>Client</code> or <code>Server</code> owns networking per process. Both classes have stable addresses and cannot be copied or moved. <code>Server::close()</code> and either owner's destructor release the runtime; a client can disconnect and reconnect without being destroyed. Direct <code>networkInit()</code> / <code>networkKill()</code> remain available when using the transport without a wrapper. See <a href="api/">API reference</a> for shutdown, callback exceptions, reentrancy and message validation contracts.</p></div>
             </div>
         </div>
 
@@ -552,5 +585,5 @@ int main() {
 
 <!--
 MkDocs version : 1.6.1
-Build Date UTC : 2026-11-11 19:33:38.655993+00:00
+Build Date UTC : 2026-11-13 01:23:22.018996+00:00
 -->

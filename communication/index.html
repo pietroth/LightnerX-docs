@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         
-        
+        <link rel="canonical" href="https://pietroth.github.io/LightnerX-docs/communication/">
         <link rel="shortcut icon" href="../img/favicon.ico">
         <title>Communication and INER - LightnerX</title>
         <link href="../css/bootstrap.min.css" rel="stylesheet">
@@ -48,6 +48,9 @@
                             </li>
                             <li class="nav-item">
                                 <a href="../api/" class="nav-link">API reference</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../audit-fixes/" class="nav-link">Audit fixes</a>
                             </li>
                         </ul>
 
@@ -249,12 +252,13 @@ void registerNotifications(lightnerx::communication::NotificationRegistry&amp; r
 <p>Header structures are packed without additional padding using <code>#pragma pack(push, 1)</code>. The converters copy fields in the machine's native representation; participants must use a compatible representation for these fields and agree on the payload format.</p>
 <h3 id="messages-from-the-authority">Messages from the Authority<a class="headerlink" href="#messages-from-the-authority" title="Permanent link">&para;</a></h3>
 <p>The first field uses a combined value: the least significant bit indicates whether the message is a <code>Response</code>, and the remaining fifteen bits represent the size.</p>
+<p>The table describes the recommended formats for emission: approved, denied and failure responses have no payload; partial approval may carry application-defined bytes.</p>
 <table>
 <thead>
 <tr>
 <th>Message</th>
 <th>Header</th>
-<th>Content</th>
+<th>Recommended content when sending</th>
 </tr>
 </thead>
 <tbody>
@@ -280,6 +284,7 @@ void registerNotifications(lightnerx::communication::NotificationRegistry&amp; r
 Response: (total_size &lt;&lt; 1) | 1
 </code></pre>
 <p>The interpreter retrieves the size with <code>base &gt;&gt; 1</code> and distinguishes <code>Event</code> from <code>Response</code> with <code>base &amp; 1</code>. In the headers delivered to the callback, <code>protocol.size</code> already contains the decoded size, without the type bit.</p>
+<p>Reception currently tolerates additional bytes in responses when the declared total matches the supplied span and the selected header is complete. For approved and failure responses, the interpreter ignores those bytes and delivers an empty payload. For denied and partially approved responses, it delivers all bytes after <code>UnsuccessfulResponse</code>, even though the recommended denied-response format has no payload. <code>protocol.size</code> still includes the complete received message, including any ignored bytes; it can therefore exceed the header size plus the delivered payload size. This reception behavior does not change the recommended emission formats. Converters copy the supplied payload without enforcing status-specific payload rules.</p>
 <h3 id="messages-from-the-obedient">Messages from the Obedient<a class="headerlink" href="#messages-from-the-obedient" title="Permanent link">&para;</a></h3>
 <p>In messages from the Obedient, <code>size</code> directly represents the total message size.</p>
 <table>
@@ -303,7 +308,7 @@ Response: (total_size &lt;&lt; 1) | 1
 </tr>
 </tbody>
 </table>
-<p>The specified size must include the header and payload. The converters copy the header and payload into a <code>SteamNetworkingMessage_t</code>; they do not automatically construct the semantic value of the <code>size</code> field.</p>
+<p>The specified size must include the header and payload. Each interpretation call must receive exactly one complete message: the decoded total must equal the supplied span and the header must be complete, otherwise no callback is delivered. Authority messages are limited to 32767 bytes and Obedient messages to 65535 bytes. The interpreter does not split concatenated messages or buffer partial frames. Unknown response statuses are ignored. The converters copy the header and payload into a <code>SteamNetworkingMessage_t</code>; they do not automatically construct the semantic value of the <code>size</code> field. They throw <code>std::bad_alloc</code> if GNS allocation fails and <code>std::length_error</code> if the allocation size cannot be represented.</p>
 <h2 id="identifiers">Identifiers<a class="headerlink" href="#identifiers" title="Permanent link">&para;</a></h2>
 <ul>
 <li><code>type_id</code> identifies the semantic type defined by the application and appears in the code as <code>MBT::type</code>.</li>
@@ -396,7 +401,8 @@ std::expected&lt;void, std::error_code&gt; broadcastEvent(
 <p><code>queueMessage</code> receives the <code>OutboundMessage</code> from the converter and stores the same message with its destination, without allocating another message or copying the bytes. The call consumes the message: on success, the batcher keeps it until the flush; if the queue is full, it releases it immediately. The caller must not call <code>Release()</code> or reuse the message after passing it to the queue. A null pointer is rejected with <code>invalid_argument</code>.</p>
 <p><code>flushAll</code> iterates over pending messages, routes each one according to its destination, and releases the message received from the converter with <code>Release()</code>. All entries are processed and the queue is emptied even when send errors occur. The return value indicates success or the last error encountered among these operations.</p>
 <p>Batching lets you accumulate multiple messages before a flush. Each entry remains a separate message; payloads are not concatenated. The application decides when to flush, for example at the end of an update. Success indicates that the transport accepted the send operations, without confirming processing by the recipient.</p>
-<p>For <code>Event</code> and <code>Response</code>, the <code>size</code> field must use the combined value described above. For <code>Intention</code> and <code>Notification</code>, it uses the total size directly.</p></div>
+<p>For <code>Event</code> and <code>Response</code>, the <code>size</code> field must use the combined value described above. For <code>Intention</code> and <code>Notification</code>, it uses the total size directly.</p>
+<p>Pending batches can be discarded explicitly with <code>clearMessagesBatcher()</code> and are also released at actual network shutdown. A thrown send exception releases the complete queue before propagating to the caller.</p></div>
             </div>
         </div>
 

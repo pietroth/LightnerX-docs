@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         
-        
+        <link rel="canonical" href="https://pietroth.github.io/LightnerX-docs/api/">
         <link rel="shortcut icon" href="../img/favicon.ico">
         <title>API reference - LightnerX</title>
         <link href="../css/bootstrap.min.css" rel="stylesheet">
@@ -49,6 +49,9 @@
                             <li class="nav-item">
                                 <a href="./" class="nav-link active" aria-current="page">API reference</a>
                             </li>
+                            <li class="nav-item">
+                                <a href="../audit-fixes/" class="nav-link">Audit fixes</a>
+                            </li>
                         </ul>
 
                     <ul class="nav navbar-nav ms-md-auto">
@@ -63,7 +66,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" class="nav-link disabled">
+                                <a rel="next" href="../audit-fixes/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -128,6 +131,10 @@
               </ul>
             </li>
             <li class="nav-item" data-bs-level="2"><a href="#lightnerxnetworkmessage_batch" class="nav-link">lightnerx.network.message_batch</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#validation-and-callback-behavior" class="nav-link">Validation and callback behavior</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -278,6 +285,7 @@ void addObedientInterpretedMessageCallback(
 <pre><code class="language-cpp">void authorityInterpret(std::span&lt;const std::byte&gt; data);
 </code></pre>
 <p>Interprets <code>Event</code> and responses sent by the Authority. The type bit selects event or response; the status selects <code>Response</code> or <code>UnsuccessfulResponse</code>. The approved and failure statuses deliver an empty payload; denial and partial approval deliver the bytes following <code>UnsuccessfulResponse</code>.</p>
+<p>This reception behavior is more permissive than the recommended emission formats. If the total size matches the supplied span and the header is complete, additional bytes in approved and failure responses are accepted but ignored; additional bytes in denied responses are delivered. The decoded <code>protocol.size</code> includes any ignored bytes, so it does not necessarily equal the header size plus the delivered payload size. See <a href="../communication/#binary-representation">binary representation</a> for both emission and reception rules.</p>
 <h3 id="outbound-converters">Outbound converters<a class="headerlink" href="#outbound-converters" title="Permanent link">&para;</a></h3>
 <p>The functions below return <code>lightnerx::network::OutboundMessage</code>:</p>
 <pre><code class="language-cpp">lightnerx::network::OutboundMessage event2OutboundMessage(
@@ -310,15 +318,18 @@ lightnerx::network::OutboundMessage notification2OutboundMessage(
     lightnerx::network::Target target
 );
 </code></pre>
-<p>The converters allocate a <code>SteamNetworkingMessage_t</code>, copy the header, and append the payload. The returned object contains the <code>message</code> pointer and the destination <code>target</code>.</p>
-<p>Initialize the network before using them. The caller fills in the <code>size</code> field according to the <a href="../communication/#binary-representation">binary representation</a> and passes the created object to <code>queueMessage</code>, which takes ownership of it. If the object is never passed to the queue, the caller must release it with <code>Release()</code>. For approved, denied, or failure responses, provide <code>{}</code> as the payload; for partial approval, provide the bytes defined by the application.</p>
+<p>The converters allocate a <code>SteamNetworkingMessage_t</code>, copy the header, and append the payload. The returned object contains the <code>message</code> pointer and the destination <code>target</code>. Allocation failure throws <code>std::bad_alloc</code>; a byte count that cannot fit the GNS allocation API throws <code>std::length_error</code>. No message ownership is transferred on these exceptions.</p>
+<p>Initialize the network before using them. The caller fills in the <code>size</code> field according to the <a href="../communication/#binary-representation">binary representation</a> and passes the created object to <code>queueMessage</code>, which takes ownership of it. If the object is never passed to the queue, the caller must release it with <code>Release()</code>. For the recommended emission formats, provide <code>{}</code> as the payload for approved, denied, or failure responses; for partial approval, provide the bytes defined by the application. Converters copy the supplied payload without enforcing these status-specific recommendations.</p>
 <h2 id="lightnerxnetworknetwork_manager"><code>lightnerx.network.network_manager</code><a class="headerlink" href="#lightnerxnetworknetwork_manager" title="Permanent link">&para;</a></h2>
 <p>Functions for controlling the global network state:</p>
 <pre><code class="language-cpp">bool networkInit();
 void networkKill();
 bool isNetworkInitialized();
 </code></pre>
-<p><code>networkInit()</code> initializes GameNetworkingSockets and returns <code>true</code> when initialization succeeds or has already been registered. <code>isNetworkInitialized()</code> queries this state. <code>networkKill()</code> shuts down the network and clears the state maintained by this module. <code>Server::start()</code> and <code>Client::start()</code> already call <code>networkInit()</code>.</p>
+<p><code>networkInit()</code> initializes GameNetworkingSockets and is idempotent. <code>isNetworkInitialized()</code> reports whether the registered runtime and interface exist. Without a started wrapper, <code>networkKill()</code> releases queued messages, shuts down networking and resets the state; it is safe to call repeatedly and initialize again.</p>
+<p>Exactly one started <code>Client</code> <strong>or</strong> <code>Server</code> may own the runtime per process. Starting the same owner again returns <code>operation_in_progress</code>; another owner returns <code>device_or_resource_busy</code>. Both types are noncopyable and nonmovable. A failed start cleans up acquired resources and permits retry. <code>Server::close()</code> (also called by its destructor) or the client destructor releases ownership and destroys the runtime, including a runtime initialized manually before <code>start()</code>.</p>
+<p>While a wrapper owns the runtime, <code>networkKill()</code> defers shutdown until that owner releases it. The interface remains usable and <code>isNetworkInitialized()</code> remains true in the meantime. Direct external <code>GameNetworkingSockets_Kill()</code> and raw <code>RunCallbacks()</code> during wrapper ownership are unsupported; use LightnerX lifecycle and update operations. Synchronize all network operations across threads in the application.</p>
+<p><code>k_invalidConnection</code> has one declaration in this module, re-exported by the client and transport modules.</p>
 <h2 id="lightnerxnetworkserver"><code>lightnerx.network.server</code><a class="headerlink" href="#lightnerxnetworkserver" title="Permanent link">&para;</a></h2>
 <h3 id="lightnerxnetworkserver_1"><code>lightnerx::network::Server</code><a class="headerlink" href="#lightnerxnetworkserver_1" title="Permanent link">&para;</a></h3>
 <p>Server based on a listen socket and a poll group.</p>
@@ -351,11 +362,11 @@ std::expected&lt;void, std::error_code&gt; disconnectConnection(
     bool enableLinger
 );
 
-void close();
+void close() noexcept;
 </code></pre>
-<p><code>start()</code> initializes the network and opens the listen socket on the specified port; <code>timeoutConnected</code> is passed to GameNetworkingSockets in milliseconds. After a successful start, <code>update()</code> processes network callbacks and up to one available message in the poll group.</p>
+<p><code>start()</code> initializes the network and opens the listen socket on the specified port (1–65535); <code>timeoutConnected</code> is passed to GameNetworkingSockets in milliseconds. Its maximum accepted value is <code>INT32_MAX</code> (2,147,483,647 ms), although the parameter type is <code>uint32_t</code>. For an unstarted server, a value above this limit returns <code>std::errc::invalid_argument</code> before initializing the network or opening the listen socket. Calling <code>start()</code> on an already started server returns <code>operation_in_progress</code> first. After a successful start, <code>update()</code> processes network callbacks and up to one available message in the poll group.</p>
 <p>The connection callback is called after acceptance and assignment to the poll group. The receive callback provides the bytes and the source handle. The bytes remain valid during these callbacks.</p>
-<p><code>disconnectConnection()</code> requests that a specific connection be closed and, on success, calls the disconnection callbacks. <code>enableLinger</code> is forwarded to the transport to control the attempt to send pending data when closing. <code>close()</code> closes the listen socket, destroys the poll group, and shuts down GameNetworkingSockets.</p>
+<p><code>disconnectConnection()</code> requests that a specific connection be closed and, on success, calls the disconnection callbacks. <code>enableLinger</code> is forwarded to the transport to control the attempt to send pending data when closing. <code>close()</code> closes the listen socket, destroys the poll group, and shuts down GameNetworkingSockets. It is idempotent and also runs from the destructor. A close requested inside a callback is completed after the outer operation releases received messages; remaining callbacks in that dispatch are skipped. Bulk close does not emit individual disconnection callbacks: clear application registrations before reusing a manager for a new session. Disconnection callbacks receive a historical handle after closure; <code>ConnectionManager::getClientId()</code> remains valid until <code>remove()</code>.</p>
 <h2 id="lightnerxnetworkclient"><code>lightnerx.network.client</code><a class="headerlink" href="#lightnerxnetworkclient" title="Permanent link">&para;</a></h2>
 <h3 id="lightnerxnetworkclient_1"><code>lightnerx::network::Client</code><a class="headerlink" href="#lightnerxnetworkclient_1" title="Permanent link">&para;</a></h3>
 <p>Client that connects to an IP address and processes messages from the connection to the server.</p>
@@ -383,7 +394,7 @@ HSteamNetConnection getServerHConn() const noexcept;
 </code></pre>
 <p><code>start()</code> initializes the transport. <code>connect()</code> initiates the connection to the specified IP address and port; monitor <code>isConnected()</code> while calling <code>update()</code> to observe the connection being established. <code>update()</code> runs network callbacks and processes up to the specified number of messages; values less than or equal to zero run only the network callbacks.</p>
 <p><code>getServerHConn()</code> returns the handle used to send messages to the server, for example with <code>Target::single(client.getServerHConn())</code>. The receive callback is stored by the client, and the provided span remains valid during its execution.</p>
-<p><code>disconnect()</code> requests that the connection be closed and forwards <code>enableLinger</code> to the transport. The destructor closes the existing connection and shuts down the GameNetworkingSockets instance initialized by the client.</p>
+<p><code>disconnect()</code> requests that the connection be closed and forwards <code>enableLinger</code> to the transport. On success it immediately invalidates the handle and clears <code>isConnected()</code>, allowing another <code>connect()</code> on the same instance. It retains ownership of the runtime until the destructor. Disconnecting inside a receive callback stops further callbacks and messages from that receive batch; all acquired messages are released. The destructor closes the existing connection and shuts down networking.</p>
 <h2 id="lightnerxnetworkconnection_manager"><code>lightnerx.network.connection_manager</code><a class="headerlink" href="#lightnerxnetworkconnection_manager" title="Permanent link">&para;</a></h2>
 <h3 id="lightnerxnetworkconnectionmanager"><code>lightnerx::network::ConnectionManager</code><a class="headerlink" href="#lightnerxnetworkconnectionmanager" title="Permanent link">&para;</a></h3>
 <p>Maintains the mapping between internal IDs and connection handles.</p>
@@ -402,10 +413,11 @@ void remove(int id);
 
 int getOnlineCount() const noexcept;
 
-void forEach(const auto&amp; callback) const noexcept;
+void forEach(const auto&amp; callback) const;
 </code></pre>
 <p><code>initialReserve</code> reserves storage space, and <code>maxCapacity</code> defines the maximum number of registered connections. <code>add</code> registers a handle and returns the assigned ID, or an empty <code>std::optional</code> when registration is not performed. <code>remove</code> unregisters the ID; closing the connection is handled by the networking component.</p>
-<p><code>getHSteamNetConnection</code> looks up a handle by its internal ID and returns <code>0</code> when there is no handle at that position. <code>getClientId</code> looks up the ID associated with the handle in GameNetworkingSockets. <code>getOnlineCount</code> returns the number of active registrations.</p>
+<p>Copying a manager produces independent registrations. Copy assignment provides the strong exception guarantee: if copying throws, the destination's mappings, count, capacity and ID allocation state remain unchanged.</p>
+<p><code>getHSteamNetConnection</code> looks up a handle by its internal ID and returns <code>0</code> when there is no handle at that position. <code>getClientId</code> looks up the ID in this manager's local registration map, independently of GNS userdata or whether the handle has since closed. <code>getOnlineCount</code> returns the number of active registrations.</p>
 <p><code>forEach</code> calls the callback for each active registration, providing the ID and handle:</p>
 <pre><code class="language-cpp">connections.forEach(
     [](std::uint16_t id, HSteamNetConnection connection) {
@@ -453,13 +465,14 @@ static Target broadcast(
 
 [[nodiscard]] bool isBroadcast() const noexcept;
 [[nodiscard]] bool isSingle() const noexcept;
+[[nodiscard]] bool isGroup() const noexcept;
 </code></pre>
 <ul>
 <li><code>single</code> selects one connection.</li>
 <li><code>group</code> stores the provided vector of handles.</li>
 <li><code>broadcast()</code> selects all connections registered in the <code>ConnectionManager</code> used during the flush. <code>broadcast({handle})</code> excludes the specified handle; the vector can contain multiple exceptions.</li>
 </ul>
-<p>The factories only describe destinations. <code>isSingle()</code> reports whether the destination is an individual connection; <code>isBroadcast()</code> reports whether it is a broadcast. Broadcast queries connections at flush time, while a group uses the list stored in <code>Target</code>.</p>
+<p>The factories only describe destinations. <code>isSingle()</code>, <code>isGroup()</code> and <code>isBroadcast()</code> report which destination is stored. Broadcast queries connections at flush time, while a group uses the list stored in <code>Target</code>.</p>
 <p>Public fields:</p>
 <pre><code class="language-cpp">std::variant&lt;
     std::monostate,
@@ -478,6 +491,7 @@ std::vector&lt;HSteamNetConnection&gt; broadcastExceptions;
 </code></pre>
 <h3 id="batcher">Batcher<a class="headerlink" href="#batcher" title="Permanent link">&para;</a></h3>
 <pre><code class="language-cpp">void initMessagesBatcher(int capacity);
+void clearMessagesBatcher() noexcept;
 
 std::expected&lt;void, std::error_code&gt; queueMessage(OutboundMessage message);
 
@@ -504,7 +518,13 @@ if (!queued) {
     std::println(&quot;Failed to send: {}&quot;, flushed.error().message());
 }
 </code></pre>
-<p>You can also queue multiple messages before calling <code>flushAll</code>. The batcher keeps each message separate, and the application chooses when to flush.</p></div>
+<p>You can also queue multiple messages before calling <code>flushAll</code>. The batcher keeps each message separate, and the application chooses when to flush.</p>
+<h2 id="validation-and-callback-behavior">Validation and callback behavior<a class="headerlink" href="#validation-and-callback-behavior" title="Permanent link">&para;</a></h2>
+<p>Both interpretation methods accept exactly one complete message. The declared total size must equal the supplied span and include the entire header. Authority sizes are decoded from 15 bits (maximum 32767 bytes); Obedient sizes use 16 bits (maximum 65535 bytes). Truncated headers, mismatched sizes, unknown response status and unregistered Obedient origins produce no callback, matching the existing void parser interface. There is no incremental or concatenated-message framing.</p>
+<p>Callbacks run synchronously. Registration during a callback is safe; newly registered callbacks participate from the next dispatch, including a nested interpretation. Existing callback objects retain mutable state. Receive/interpreter/<code>forEach</code> exceptions propagate to their caller, with received buffers released even when a client batch is interrupted. Exceptions from GNS status callbacks are caught at the boundary and the first exception is rethrown by <code>Server::update()</code> after <code>RunCallbacks()</code> returns. A throwing callback ends its current callback sequence.</p>
+<p>Recursive <code>update()</code> returns <code>operation_in_progress</code>. Callbacks may disconnect or request <code>Server::close()</code>; do not destroy or assign the component executing a callback. Referenced objects must remain alive until dispatch finishes. A negative receive result returns <code>io_error</code>, distinct from an empty queue; the client also clears and closes its failed connection. Updating an unstarted/closed wrapper returns <code>not_connected</code>.</p>
+<p><code>ConnectionManager</code> owns an independent, bidirectional mapping; it neither reads nor writes GNS userdata. A handle may be registered once per manager. Adding a duplicate, invalid handle, or a handle beyond capacity returns <code>nullopt</code>. Different managers may independently register the same valid handle. <code>getClientId()</code> returns <code>nullopt</code> for an absent registration, including handle zero, and retains a registered identity after transport closure until removal. IDs range from 1 to 65535 and are recycled; negative capacities throw <code>invalid_argument</code>, capacity above 65535 is capped. <code>forEach</code> visits the index range present on entry, safely allowing add/remove; it may observe replacements within that range but does not extend traversal for vector growth.</p>
+<p>The batch queue is global. <code>initMessagesBatcher()</code> reserves capacity without discarding queued messages. <code>clearMessagesBatcher()</code> releases pending messages and preserves capacity; actual network shutdown and queue destruction also release pending messages. <code>flushAll()</code> releases every queued message if a send throws, then propagates the exception; with returned error codes it attempts all entries and returns the last error. Serialize all batch operations, including clearing and shutdown.</p></div>
             </div>
         </div>
 
