@@ -149,28 +149,6 @@
 <li><strong>Intention:</strong> an action request sent to the Authority.</li>
 <li><strong>Notification:</strong> information sent to the Authority without requesting a state change.</li>
 </ul>
-<h3 id="iner-message-flow">INER message flow<a class="headerlink" href="#iner-message-flow" title="Permanent link">&para;</a></h3>
-<p>The INER protocol defines four message types exchanged between the Authority and the Obedient:</p>
-<pre><code class="language-mermaid">flowchart LR
-    A[&quot;🖥️ AUTHORITY&lt;br/&gt;Server&quot;]
-    O[&quot;💻 OBEDIENT&lt;br/&gt;Client&quot;]
-
-    A --&gt;|EVENT| O
-    A --&gt;|RESPONSE| O
-    O --&gt;|INTENTION| A
-    O --&gt;|NOTIFICATION| A
-
-    classDef authority fill:#123456,stroke:#2699ff,color:#fff,stroke-width:2px
-    classDef obedient fill:#302050,stroke:#a76bee,color:#fff,stroke-width:2px
-
-    class A authority
-    class O obedient
-
-    linkStyle 0 stroke:#2596ee,stroke-width:3px
-    linkStyle 1 stroke:#16a085,stroke-width:3px
-    linkStyle 2 stroke:#e69b27,stroke-width:3px
-    linkStyle 3 stroke:#a76bee,stroke-width:3px
-</code></pre>
 <p>In LightnerX, the application connects components through callbacks: the network delivers bytes, and <code>MessageInterpreter</code> interprets those bytes according to the direction of communication. When sending, <code>lightnerx::network::Target</code> lets you select a connection, a group, or a broadcast with or without exceptions.</p>
 <h2 id="navigation">Navigation<a class="headerlink" href="#navigation" title="Permanent link">&para;</a></h2>
 <ul>
