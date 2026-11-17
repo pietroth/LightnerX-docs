@@ -34,25 +34,15 @@
                 <div id="navbar-collapse" class="navbar-collapse collapse">
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
-                            <li class="nav-item">
-                                <a href="." class="nav-link active" aria-current="page">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="setup/" class="nav-link">Setup</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="first-steps/" class="nav-link">First steps</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="communication/" class="nav-link">Communication and INER</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="api/" class="nav-link">API reference</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="audit-fixes/" class="nav-link">Audit fixes</a>
-                            </li>
-                        </ul>
+<li class="nav-item"><a href="." class="nav-link active" aria-current="page">Home</a></li>
+<li class="nav-item"><a href="setup/" class="nav-link">Setup</a></li>
+<li class="nav-item"><a href="first-steps/" class="nav-link">First steps</a></li>
+<li class="nav-item"><a href="communication/" class="nav-link">Communication and INER</a></li>
+<li class="nav-item"><a href="api/" class="nav-link">API reference</a></li>
+<li class="nav-item"><a href="compact/" class="nav-link">C++17 compact types</a></li>
+<li class="nav-item"><a href="migration-cpp17/" class="nav-link">Migration and validation</a></li>
+<li class="nav-item"><a href="audit-fixes/" class="nav-link">Audit fixes</a></li>
+</ul>
 
                     <ul class="nav navbar-nav ms-md-auto">
                         <li class="nav-item">
@@ -61,14 +51,10 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" class="nav-link disabled">
-                                    <i class="fa fa-arrow-left"></i> Previous
-                                </a>
+                                <a rel="prev" class="nav-link disabled"><i class="fa fa-arrow-left"></i> Previous</a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="setup/" class="nav-link">
-                                    Next <i class="fa fa-arrow-right"></i>
-                                </a>
+                                <a rel="next" href="setup/" class="nav-link">Next <i class="fa fa-arrow-right"></i></a>
                             </li>
                     </ul>
                 </div>
@@ -85,62 +71,33 @@
     </div>
 
     
-    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
-        <ul class="nav flex-column">
-            
-            <li class="nav-item" data-bs-level="2"><a href="#library-not-a-framework" class="nav-link">Library, not a framework</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-
-            <li class="nav-item" data-bs-level="2"><a href="#key-concepts" class="nav-link">Key concepts</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-
-            <li class="nav-item" data-bs-level="2"><a href="#navigation" class="nav-link">Navigation</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-
-            <li class="nav-item" data-bs-level="2"><a href="#server-example" class="nav-link">Server example</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-
-            <li class="nav-item" data-bs-level="2"><a href="#client-example" class="nav-link">Client example</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-
-            <li class="nav-item" data-bs-level="2"><a href="#complete-code" class="nav-link">Complete code</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-
-            <li class="nav-item" data-bs-level="2"><a href="#runtime-contracts" class="nav-link">Runtime contracts</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-        </ul>
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary"><ul class="nav flex-column"><li class="nav-item" data-bs-level="1"><a class="nav-link" href="#lightnerx">LightnerX</a></li><li class="nav-item" data-bs-level="2"><a class="nav-link" href="#why-lightnerx">Why LightnerX?</a></li><li class="nav-item" data-bs-level="2"><a class="nav-link" href="#library-not-a-framework">Library, not a framework</a></li><li class="nav-item" data-bs-level="2"><a class="nav-link" href="#key-concepts">Key concepts</a></li><li class="nav-item" data-bs-level="2"><a class="nav-link" href="#navigation">Navigation</a></li><li class="nav-item" data-bs-level="2"><a class="nav-link" href="#server-example">Server example</a></li><li class="nav-item" data-bs-level="2"><a class="nav-link" href="#client-example">Client example</a></li><li class="nav-item" data-bs-level="2"><a class="nav-link" href="#complete-code">Complete code</a></li><li class="nav-item" data-bs-level="2"><a class="nav-link" href="#runtime-contracts">Runtime contracts</a></li></ul>
     </div>
 </div></div>
                     <div class="col-md-9" role="main">
-
-<p><img alt="LightnerX" src="LightnerX%20Framed%20Wordmark.png" /></p>
-<p>LightnerX is a modular static C++ library for building applications that communicate using the INER semantic protocol. The CMake project provides the <code>LightnerX</code> target; it neither produces nor requires its own executable. The library provides types for representing messages, interpreters, callbacks, connection management, and a transport layer based on GameNetworkingSockets.</p>
+<h1 id="lightnerx">LightnerX<a class="headerlink" href="#lightnerx" title="Permanent link">¶</a></h1>
+<p>LightnerX is a static C++17 library for building applications that communicate using the INER semantic protocol. The CMake project provides the <code>LightnerX</code> target; it neither produces nor requires its own executable. The library provides types for representing messages, interpreters, callbacks, connection management, and a transport layer based on GameNetworkingSockets.</p>
+<h2 id="why-lightnerx">Why LightnerX?<a class="headerlink" href="#why-lightnerx" title="Permanent link">¶</a></h2>
+<p>LightnerX keeps client-server communication simple through a clear message model and modular components:</p>
+<ul>
+<li><strong>Simple integration:</strong> connect networking and message handling through callbacks, while keeping control over initialization, update timing, and threads.</li>
+<li><strong>Standardized communication:</strong> INER gives client and server a shared vocabulary for action requests, results, events, and informational updates, making each message's purpose and direction explicit.</li>
+<li><strong>Modularity:</strong> compose message interpreters, connection management, and transport components according to your application's needs.</li>
+<li><strong>Application flexibility:</strong> define your own message types and payloads while following the same communication model.</li>
+</ul>
 <p>INER defines the meaning of messages exchanged between an Authority and an Obedient. It does not define sockets, connections, or an execution model. These capabilities are provided by LightnerX's networking components and can be connected to the application according to the developer's needs.</p>
-<h2 id="library-not-a-framework">Library, not a framework<a class="headerlink" href="#library-not-a-framework" title="Permanent link">&para;</a></h2>
+<p>Build with CMake 3.22 or newer and a C++17 compiler. Public headers live under <code>include/lightnerx/</code>; byte views and results use the project’s own <a href="compact/"><code>lightnerx::compact</code></a> types. See <a href="setup/">Setup</a> for dependencies and tested toolchains.</p>
+<h2 id="library-not-a-framework">Library, not a framework<a class="headerlink" href="#library-not-a-framework" title="Permanent link">¶</a></h2>
 <p>LightnerX provides reusable components. The consuming application decides:</p>
 <ul>
 <li>when to initialize and shut down components;</li>
 <li>how to run <code>update()</code>;</li>
 <li>which threads to use;</li>
 <li>how to organize the connection lifecycle;</li>
-<li>which modules to use or replace with its own implementations.</li>
+<li>which components to use or replace with its own implementations.</li>
 </ul>
 <p>For example, you can pass one complete INER message from your own transport to <code>lightnerx::communication::MessageInterpreter</code>. <code>authorityInterpret</code> does not require a connection. <code>obedientInterpret</code> requires a <code>lightnerx::network::ConnectionManager</code> registration: <code>add()</code> accepts only live GNS handles, so arbitrary identifiers from another transport are not supported by that path. The manager stores its own mapping and does not use GNS connection userdata.</p>
-<h2 id="key-concepts">Key concepts<a class="headerlink" href="#key-concepts" title="Permanent link">&para;</a></h2>
+<h2 id="key-concepts">Key concepts<a class="headerlink" href="#key-concepts" title="Permanent link">¶</a></h2>
 <ul>
 <li><strong>Authority:</strong> controls internal states and receives intentions from the Obedient.</li>
 <li><strong>Obedient:</strong> sends intentions to the Authority and receives events and responses.</li>
@@ -149,11 +106,49 @@
 <li><strong>Intention:</strong> an action request sent to the Authority.</li>
 <li><strong>Notification:</strong> information sent to the Authority without requesting a state change.</li>
 </ul>
-<h3 id="iner-message-flow">INER message flow<a class="headerlink" href="#iner-message-flow" title="Permanent link">&para;</a></h3>
+<h3 id="iner-message-flow">INER message flow<a class="headerlink" href="#iner-message-flow" title="Permanent link">¶</a></h3>
 <p>The INER protocol defines four message types exchanged between the Authority and the Obedient:</p>
+<p>Choose the message type according to its purpose and direction. In a typical client-server application, the server acts as the Authority and the client as the Obedient.</p>
+<table>
+<thead>
+<tr>
+<th>Message type</th>
+<th>Direction</th>
+<th>When to use it</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Intention</strong></td>
+<td>Client → Server</td>
+<td>Request an action that the Authority must evaluate.</td>
+<td>Move a player, fire a weapon, use an item, join a match.</td>
+</tr>
+<tr>
+<td><strong>Notification</strong></td>
+<td>Client → Server</td>
+<td>Report information without requesting a change to the Authority's internal state.</td>
+<td>Report measured ping/latency, FPS, or client diagnostics.</td>
+</tr>
+<tr>
+<td><strong>Event</strong></td>
+<td>Server → Client</td>
+<td>Communicate an occurrence or state update from the Authority.</td>
+<td>A player joined, an entity moved, a projectile spawned, a match started.</td>
+</tr>
+<tr>
+<td><strong>Response</strong></td>
+<td>Server → Client</td>
+<td>Return the outcome of a specific Intention, linked by its <code>correlationId</code>.</td>
+<td>Movement approved, firing denied because ammunition is insufficient, an action partially applied, or processing failed.</td>
+</tr>
+</tbody>
+</table>
+<p>These examples describe application-defined messages; LightnerX does not provide built-in gameplay commands or telemetry formats. A Response reports an Intention's outcome, while an Event communicates an occurrence to the relevant clients.</p>
 <pre><code class="language-mermaid">flowchart LR
-    A[&quot;🖥️ AUTHORITY&lt;br/&gt;Server&quot;]
-    O[&quot;💻 OBEDIENT&lt;br/&gt;Client&quot;]
+    A["🖥️ AUTHORITY&lt;br/&gt;Server"]
+    O["💻 OBEDIENT&lt;br/&gt;Client"]
 
     A --&gt;|EVENT| O
     A --&gt;|RESPONSE| O
@@ -172,16 +167,18 @@
     linkStyle 3 stroke:#a76bee,stroke-width:3px
 </code></pre>
 <p>In LightnerX, the application connects components through callbacks: the network delivers bytes, and <code>MessageInterpreter</code> interprets those bytes according to the direction of communication. When sending, <code>lightnerx::network::Target</code> lets you select a connection, a group, or a broadcast with or without exceptions.</p>
-<h2 id="navigation">Navigation<a class="headerlink" href="#navigation" title="Permanent link">&para;</a></h2>
+<h2 id="navigation">Navigation<a class="headerlink" href="#navigation" title="Permanent link">¶</a></h2>
 <ul>
 <li><a href="setup/">Setup</a></li>
 <li><a href="first-steps/">First steps</a></li>
 <li><a href="communication/">Communication and the INER protocol</a></li>
 <li><a href="api/">API reference</a></li>
+<li><a href="compact/">C++17 compact types</a></li>
+<li><a href="migration-cpp17/">Migration and validation</a></li>
 </ul>
-<h2 id="server-example">Server example<a class="headerlink" href="#server-example" title="Permanent link">&para;</a></h2>
-<p>This example receives notifications from the client and sends the text <code>Hello, World!</code> in events to registered connections. The snippets below make up the complete program at the end of the README; the statements belong inside the main function, after the imports shown in the complete code.</p>
-<h3 id="create-the-components">Create the components<a class="headerlink" href="#create-the-components" title="Permanent link">&para;</a></h3>
+<h2 id="server-example">Server example<a class="headerlink" href="#server-example" title="Permanent link">¶</a></h2>
+<p>This example receives notifications from the client and sends the text <code>Hello, World!</code> in events to registered connections. The snippets below make up the complete program at the end of the README; the statements belong inside the main function, after the includes shown in the complete code.</p>
+<h3 id="create-the-components">Create the components<a class="headerlink" href="#create-the-components" title="Permanent link">¶</a></h3>
 <p>The manager maps handles to internal client IDs. Register ID <code>47</code> so that the interpreter recognizes notifications sent by the client in this example.</p>
 <pre><code class="language-cpp">using namespace std::chrono_literals;
 namespace network = lightnerx::network;
@@ -193,12 +190,12 @@ communication::MessageInterpreter interpreter;
 communication::NotificationRegistry notifications;
 notifications.registerId(47);
 </code></pre>
-<h3 id="track-connections">Track connections<a class="headerlink" href="#track-connections" title="Permanent link">&para;</a></h3>
+<h3 id="track-connections">Track connections<a class="headerlink" href="#track-connections" title="Permanent link">¶</a></h3>
 <p>The callbacks keep the manager up to date. If registering a connection fails, the server requests its disconnection.</p>
 <pre><code class="language-cpp">server.addClientConnectedCallback([&amp;](HSteamNetConnection connection) {
     if (!connections.add(connection)) {
         if (const auto result = server.disconnectConnection(connection, false); !result) {
-            std::println(&quot;Failed to disconnect: {}&quot;, result.error().message());
+            std::cout &lt;&lt; "Failed to disconnect: " &lt;&lt; result.error().message() &lt;&lt; '\n';
         }
     }
 });
@@ -209,69 +206,69 @@ server.addClientDisconnectedCallback([&amp;](HSteamNetConnection connection) {
     }
 });
 </code></pre>
-<h3 id="receive-messages">Receive messages<a class="headerlink" href="#receive-messages" title="Permanent link">&para;</a></h3>
+<h3 id="receive-messages">Receive messages<a class="headerlink" href="#receive-messages" title="Permanent link">¶</a></h3>
 <p>Forward the received bytes to <code>obedientInterpret</code>. The interpreter's callback delivers the message and the internal client ID. In this example, the payload is text and is read during the callback.</p>
 <pre><code class="language-cpp">server.addClientReceivedMessageCallback(
-    [&amp;](std::span&lt;const std::byte&gt; bytes, HSteamNetConnection connection) {
+    [&amp;](lightnerx::compact::span&lt;const std::byte&gt; bytes, HSteamNetConnection connection) {
         interpreter.obedientInterpret(bytes, notifications, connection, connections);
     }
 );
 
 interpreter.addObedientInterpretedMessageCallback(
     [](communication::Message message, std::uint16_t clientId) {
-        const std::string_view text{
+        const auto text = message.payload.empty() ? std::string_view{} : std::string_view{
             reinterpret_cast&lt;const char*&gt;(message.payload.data()), message.payload.size()
         };
-        std::println(&quot;Client {}: {}&quot;, clientId, text);
+        std::cout &lt;&lt; "Client " &lt;&lt; clientId &lt;&lt; ": " &lt;&lt; text &lt;&lt; '\n';
     }
 );
 </code></pre>
-<h3 id="start-the-server">Start the server<a class="headerlink" href="#start-the-server" title="Permanent link">&para;</a></h3>
+<h3 id="start-the-server">Start the server<a class="headerlink" href="#start-the-server" title="Permanent link">¶</a></h3>
 <p>Start listening on port <code>41333</code>, with an established connection timeout of <code>3000</code> ms, and reserve one slot for the batcher's pending message.</p>
 <pre><code class="language-cpp">if (const auto result = server.start(41333, 3000); !result) {
-    std::println(&quot;Failed to start: {}&quot;, result.error().message());
+    std::cout &lt;&lt; "Failed to start: " &lt;&lt; result.error().message() &lt;&lt; '\n';
     return 1;
 }
 network::initMessagesBatcher(1);
 </code></pre>
-<h3 id="prepare-an-event">Prepare an event<a class="headerlink" href="#prepare-an-event" title="Permanent link">&para;</a></h3>
+<h3 id="prepare-an-event">Prepare an event<a class="headerlink" href="#prepare-an-event" title="Permanent link">¶</a></h3>
 <p>Convert the text to bytes and include the header and payload in the total size. For <code>Event</code>, the size is shifted one bit to the left. Type <code>990</code> is chosen by the application.</p>
-<pre><code class="language-cpp">const std::string_view greeting = &quot;Hello, World!&quot;;
-const auto payload = std::as_bytes(std::span{greeting});
+<pre><code class="language-cpp">const std::string_view greeting = "Hello, World!";
+const auto payload = lightnerx::compact::as_bytes(lightnerx::compact::span{greeting});
 const communication::Event event{
     // The least significant bit distinguishes Event from Response.
     static_cast&lt;std::uint16_t&gt;((sizeof(communication::Event) + payload.size()) &lt;&lt; 1),
     990
 };
 </code></pre>
-<h3 id="update-and-send">Update and send<a class="headerlink" href="#update-and-send" title="Permanent link">&para;</a></h3>
+<h3 id="update-and-send">Update and send<a class="headerlink" href="#update-and-send" title="Permanent link">¶</a></h3>
 <p><code>update()</code> processes the network. The converter creates an <code>OutboundMessage</code>, which is passed directly to <code>queueMessage</code>. <code>Target::broadcast()</code> selects the connections registered at flush time.</p>
 <pre><code class="language-cpp">while (true) {
     if (const auto result = server.update(); !result) {
-        std::println(&quot;Failed to update: {}&quot;, result.error().message());
+        std::cout &lt;&lt; "Failed to update: " &lt;&lt; result.error().message() &lt;&lt; '\n';
         break;
     }
     if (const auto result = network::queueMessage(communication::event2OutboundMessage(
             event, payload, network::Target::broadcast())); !result) {
-        std::println(&quot;Failed to queue: {}&quot;, result.error().message());
+        std::cout &lt;&lt; "Failed to queue: " &lt;&lt; result.error().message() &lt;&lt; '\n';
         break;
     }
     if (const auto result = network::flushAll(connections); !result) {
-        std::println(&quot;Failed to send: {}&quot;, result.error().message());
+        std::cout &lt;&lt; "Failed to send: " &lt;&lt; result.error().message() &lt;&lt; '\n';
         break;
     }
     std::this_thread::sleep_for(3s);
 }
 </code></pre>
 <p><code>queueMessage</code> takes ownership of the message, including when it returns an error; the application does not call <code>Release()</code> afterward. <code>flushAll</code> processes the queue and releases the messages. The three-second interval is a choice made for this example; the application defines its own update rate.</p>
-<h3 id="shut-down-the-server">Shut down the server<a class="headerlink" href="#shut-down-the-server" title="Permanent link">&para;</a></h3>
+<h3 id="shut-down-the-server">Shut down the server<a class="headerlink" href="#shut-down-the-server" title="Permanent link">¶</a></h3>
 <p>After exiting the loop due to an error, close the server. Returning <code>1</code> signals an exit due to failure in this example.</p>
 <pre><code class="language-cpp">server.close();
 return 1;
 </code></pre>
-<h2 id="client-example">Client example<a class="headerlink" href="#client-example" title="Permanent link">&para;</a></h2>
+<h2 id="client-example">Client example<a class="headerlink" href="#client-example" title="Permanent link">¶</a></h2>
 <p>The client connects to the server at <code>127.0.0.1:41333</code>, prints the received events, and sends a notification with the same text. Run the server and client in separate processes.</p>
-<h3 id="create-the-components_1">Create the components<a class="headerlink" href="#create-the-components_1" title="Permanent link">&para;</a></h3>
+<h3 id="create-the-components_1">Create the components<a class="headerlink" href="#create-the-components_1" title="Permanent link">¶</a></h3>
 <p>The empty manager satisfies the <code>flushAll</code> signature. Sending to the server individually uses the client's connection handle directly.</p>
 <pre><code class="language-cpp">using namespace std::chrono_literals;
 namespace network = lightnerx::network;
@@ -281,9 +278,9 @@ network::Client client;
 network::ConnectionManager connections{0, 0}; // Required by flush, without broadcast.
 communication::MessageInterpreter interpreter;
 </code></pre>
-<h3 id="receive-messages-from-the-server">Receive messages from the server<a class="headerlink" href="#receive-messages-from-the-server" title="Permanent link">&para;</a></h3>
+<h3 id="receive-messages-from-the-server">Receive messages from the server<a class="headerlink" href="#receive-messages-from-the-server" title="Permanent link">¶</a></h3>
 <p>Forward the bytes to <code>authorityInterpret</code>, which interprets messages from the Authority. The callback below prints the text payload agreed upon by these examples and handles empty payloads.</p>
-<pre><code class="language-cpp">client.addServerReceivedMessageCallback([&amp;](std::span&lt;const std::byte&gt; bytes) {
+<pre><code class="language-cpp">client.addServerReceivedMessageCallback([&amp;](lightnerx::compact::span&lt;const std::byte&gt; bytes) {
     interpreter.authorityInterpret(bytes);
 });
 
@@ -291,70 +288,76 @@ interpreter.addAuthorityInterpretedMessageCallback([](communication::Message mes
     const auto text = message.payload.empty() ? std::string_view{} : std::string_view{
         reinterpret_cast&lt;const char*&gt;(message.payload.data()), message.payload.size()
     };
-    std::println(&quot;Server: {}&quot;, text);
+    std::cout &lt;&lt; "Server: " &lt;&lt; text &lt;&lt; '\n';
 });
 </code></pre>
 <p>The callbacks use the bytes during the call. To retain a received payload, copy its bytes into application storage before returning.</p>
-<h3 id="start-and-connect">Start and connect<a class="headerlink" href="#start-and-connect" title="Permanent link">&para;</a></h3>
+<h3 id="start-and-connect">Start and connect<a class="headerlink" href="#start-and-connect" title="Permanent link">¶</a></h3>
 <p>Initialize the client, request a connection to the server, and reserve space in the batcher. The connection will be tracked during calls to <code>update()</code>.</p>
 <pre><code class="language-cpp">if (const auto result = client.start(); !result) {
-    std::println(&quot;Failed to start: {}&quot;, result.error().message());
+    std::cout &lt;&lt; "Failed to start: " &lt;&lt; result.error().message() &lt;&lt; '\n';
     return 1;
 }
-if (const auto result = client.connect(&quot;127.0.0.1&quot;, 41333); !result) {
-    std::println(&quot;Failed to connect: {}&quot;, result.error().message());
+if (const auto result = client.connect("127.0.0.1", 41333); !result) {
+    std::cout &lt;&lt; "Failed to connect: " &lt;&lt; result.error().message() &lt;&lt; '\n';
     return 1;
 }
 network::initMessagesBatcher(1);
 </code></pre>
-<h3 id="prepare-a-notification">Prepare a notification<a class="headerlink" href="#prepare-a-notification" title="Permanent link">&para;</a></h3>
+<h3 id="prepare-a-notification">Prepare a notification<a class="headerlink" href="#prepare-a-notification" title="Permanent link">¶</a></h3>
 <p><code>Notification</code> uses the total size directly, without bit shifting. ID <code>47</code> corresponds to the registration made on the server.</p>
-<pre><code class="language-cpp">const std::string_view greeting = &quot;Hello, World!&quot;;
-const auto payload = std::as_bytes(std::span{greeting});
+<pre><code class="language-cpp">const std::string_view greeting = "Hello, World!";
+const auto payload = lightnerx::compact::as_bytes(lightnerx::compact::span{greeting});
 const communication::Notification notification{
     static_cast&lt;std::uint16_t&gt;(sizeof(communication::Notification) + payload.size()),
     47 // The server must register this ID in NotificationRegistry.
 };
 </code></pre>
-<h3 id="update-and-send-to-the-server">Update and send to the server<a class="headerlink" href="#update-and-send-to-the-server" title="Permanent link">&para;</a></h3>
+<h3 id="update-and-send-to-the-server">Update and send to the server<a class="headerlink" href="#update-and-send-to-the-server" title="Permanent link">¶</a></h3>
 <p>Process up to 32 messages per update and send when <code>isConnected()</code> indicates an established connection. <code>Target::single</code> selects the server's handle.</p>
 <pre><code class="language-cpp">while (true) {
     if (const auto result = client.update(32); !result) {
-        std::println(&quot;Failed to update: {}&quot;, result.error().message());
+        std::cout &lt;&lt; "Failed to update: " &lt;&lt; result.error().message() &lt;&lt; '\n';
         break;
     }
     if (client.isConnected()) {
         if (const auto result = network::queueMessage(communication::notification2OutboundMessage(
                 notification, payload, network::Target::single(client.getServerHConn()))); !result) {
-            std::println(&quot;Failed to queue: {}&quot;, result.error().message());
+            std::cout &lt;&lt; "Failed to queue: " &lt;&lt; result.error().message() &lt;&lt; '\n';
             break;
         }
         if (const auto result = network::flushAll(connections); !result) {
-            std::println(&quot;Failed to send: {}&quot;, result.error().message());
+            std::cout &lt;&lt; "Failed to send: " &lt;&lt; result.error().message() &lt;&lt; '\n';
             break;
         }
     }
     std::this_thread::sleep_for(3000ms);
 }
 </code></pre>
-<h3 id="shut-down-the-client">Shut down the client<a class="headerlink" href="#shut-down-the-client" title="Permanent link">&para;</a></h3>
+<h3 id="shut-down-the-client">Shut down the client<a class="headerlink" href="#shut-down-the-client" title="Permanent link">¶</a></h3>
 <p>When exiting due to an error, the <code>Client</code> destructor closes the connection and shuts down the network. Returning <code>1</code> indicates the failure that interrupted the example.</p>
 <pre><code class="language-cpp">return 1; // The Client destructor closes the connection and shuts down the network.
 </code></pre>
-<h2 id="complete-code">Complete code<a class="headerlink" href="#complete-code" title="Permanent link">&para;</a></h2>
+<h2 id="complete-code">Complete code<a class="headerlink" href="#complete-code" title="Permanent link">¶</a></h2>
 <p>The programs below bring together the snippets presented above. The text payload, IDs, loop, and intervals are choices made by the consuming application.</p>
-<h3 id="complete-server">Complete server<a class="headerlink" href="#complete-server" title="Permanent link">&para;</a></h3>
+<h3 id="complete-server">Complete server<a class="headerlink" href="#complete-server" title="Permanent link">¶</a></h3>
 <pre><code class="language-cpp">#include &lt;steam/steamnetworkingtypes.h&gt;
 
-import std;
+#include &lt;chrono&gt;
+#include &lt;cstddef&gt;
+#include &lt;cstdint&gt;
+#include &lt;iostream&gt;
+#include &lt;string_view&gt;
+#include &lt;thread&gt;
+#include &lt;lightnerx/compact/span.hpp&gt;
 
-import lightnerx.network.server;
-import lightnerx.network.connection_manager;
-import lightnerx.network.message_batch;
-import lightnerx.network.target;
-import lightnerx.communication.message;
-import lightnerx.communication.notification;
-import lightnerx.communication.event;
+#include &lt;lightnerx/network/server.hpp&gt;
+#include &lt;lightnerx/network/connection_manager.hpp&gt;
+#include &lt;lightnerx/network/message_batch.hpp&gt;
+#include &lt;lightnerx/network/target.hpp&gt;
+#include &lt;lightnerx/communication/message.hpp&gt;
+#include &lt;lightnerx/communication/notification.hpp&gt;
+#include &lt;lightnerx/communication/event.hpp&gt;
 
 int main() {
     using namespace std::chrono_literals;
@@ -370,7 +373,7 @@ int main() {
     server.addClientConnectedCallback([&amp;](HSteamNetConnection connection) {
         if (!connections.add(connection)) {
             if (const auto result = server.disconnectConnection(connection, false); !result) {
-                std::println(&quot;Failed to disconnect: {}&quot;, result.error().message());
+                std::cout &lt;&lt; "Failed to disconnect: " &lt;&lt; result.error().message() &lt;&lt; '\n';
             }
         }
     });
@@ -382,28 +385,28 @@ int main() {
     });
 
     server.addClientReceivedMessageCallback(
-        [&amp;](std::span&lt;const std::byte&gt; bytes, HSteamNetConnection connection) {
+        [&amp;](lightnerx::compact::span&lt;const std::byte&gt; bytes, HSteamNetConnection connection) {
             interpreter.obedientInterpret(bytes, notifications, connection, connections);
         }
     );
 
     interpreter.addObedientInterpretedMessageCallback(
         [](communication::Message message, std::uint16_t clientId) {
-            const std::string_view text{
+            const auto text = message.payload.empty() ? std::string_view{} : std::string_view{
                 reinterpret_cast&lt;const char*&gt;(message.payload.data()), message.payload.size()
             };
-            std::println(&quot;Client {}: {}&quot;, clientId, text);
+            std::cout &lt;&lt; "Client " &lt;&lt; clientId &lt;&lt; ": " &lt;&lt; text &lt;&lt; '\n';
         }
     );
 
     if (const auto result = server.start(41333, 3000); !result) {
-        std::println(&quot;Failed to start: {}&quot;, result.error().message());
+        std::cout &lt;&lt; "Failed to start: " &lt;&lt; result.error().message() &lt;&lt; '\n';
         return 1;
     }
     network::initMessagesBatcher(1);
 
-    const std::string_view greeting = &quot;Hello, World!&quot;;
-    const auto payload = std::as_bytes(std::span{greeting});
+    const std::string_view greeting = "Hello, World!";
+    const auto payload = lightnerx::compact::as_bytes(lightnerx::compact::span{greeting});
     const communication::Event event{
         // The least significant bit distinguishes Event from Response.
         static_cast&lt;std::uint16_t&gt;((sizeof(communication::Event) + payload.size()) &lt;&lt; 1),
@@ -412,16 +415,16 @@ int main() {
 
     while (true) {
         if (const auto result = server.update(); !result) {
-            std::println(&quot;Failed to update: {}&quot;, result.error().message());
+            std::cout &lt;&lt; "Failed to update: " &lt;&lt; result.error().message() &lt;&lt; '\n';
             break;
         }
         if (const auto result = network::queueMessage(communication::event2OutboundMessage(
                 event, payload, network::Target::broadcast())); !result) {
-            std::println(&quot;Failed to queue: {}&quot;, result.error().message());
+            std::cout &lt;&lt; "Failed to queue: " &lt;&lt; result.error().message() &lt;&lt; '\n';
             break;
         }
         if (const auto result = network::flushAll(connections); !result) {
-            std::println(&quot;Failed to send: {}&quot;, result.error().message());
+            std::cout &lt;&lt; "Failed to send: " &lt;&lt; result.error().message() &lt;&lt; '\n';
             break;
         }
         std::this_thread::sleep_for(3s);
@@ -431,17 +434,23 @@ int main() {
     return 1;
 }
 </code></pre>
-<h3 id="complete-client">Complete client<a class="headerlink" href="#complete-client" title="Permanent link">&para;</a></h3>
+<h3 id="complete-client">Complete client<a class="headerlink" href="#complete-client" title="Permanent link">¶</a></h3>
 <pre><code class="language-cpp">#include &lt;steam/steamnetworkingtypes.h&gt;
 
-import std;
+#include &lt;chrono&gt;
+#include &lt;cstddef&gt;
+#include &lt;cstdint&gt;
+#include &lt;iostream&gt;
+#include &lt;string_view&gt;
+#include &lt;thread&gt;
+#include &lt;lightnerx/compact/span.hpp&gt;
 
-import lightnerx.network.client;
-import lightnerx.network.connection_manager;
-import lightnerx.network.message_batch;
-import lightnerx.network.target;
-import lightnerx.communication.message;
-import lightnerx.communication.notification;
+#include &lt;lightnerx/network/client.hpp&gt;
+#include &lt;lightnerx/network/connection_manager.hpp&gt;
+#include &lt;lightnerx/network/message_batch.hpp&gt;
+#include &lt;lightnerx/network/target.hpp&gt;
+#include &lt;lightnerx/communication/message.hpp&gt;
+#include &lt;lightnerx/communication/notification.hpp&gt;
 
 int main() {
     using namespace std::chrono_literals;
@@ -452,7 +461,7 @@ int main() {
     network::ConnectionManager connections{0, 0}; // Required by flush, without broadcast.
     communication::MessageInterpreter interpreter;
 
-    client.addServerReceivedMessageCallback([&amp;](std::span&lt;const std::byte&gt; bytes) {
+    client.addServerReceivedMessageCallback([&amp;](lightnerx::compact::span&lt;const std::byte&gt; bytes) {
         interpreter.authorityInterpret(bytes);
     });
 
@@ -460,21 +469,21 @@ int main() {
         const auto text = message.payload.empty() ? std::string_view{} : std::string_view{
             reinterpret_cast&lt;const char*&gt;(message.payload.data()), message.payload.size()
         };
-        std::println(&quot;Server: {}&quot;, text);
+        std::cout &lt;&lt; "Server: " &lt;&lt; text &lt;&lt; '\n';
     });
 
     if (const auto result = client.start(); !result) {
-        std::println(&quot;Failed to start: {}&quot;, result.error().message());
+        std::cout &lt;&lt; "Failed to start: " &lt;&lt; result.error().message() &lt;&lt; '\n';
         return 1;
     }
-    if (const auto result = client.connect(&quot;127.0.0.1&quot;, 41333); !result) {
-        std::println(&quot;Failed to connect: {}&quot;, result.error().message());
+    if (const auto result = client.connect("127.0.0.1", 41333); !result) {
+        std::cout &lt;&lt; "Failed to connect: " &lt;&lt; result.error().message() &lt;&lt; '\n';
         return 1;
     }
     network::initMessagesBatcher(1);
 
-    const std::string_view greeting = &quot;Hello, World!&quot;;
-    const auto payload = std::as_bytes(std::span{greeting});
+    const std::string_view greeting = "Hello, World!";
+    const auto payload = lightnerx::compact::as_bytes(lightnerx::compact::span{greeting});
     const communication::Notification notification{
         static_cast&lt;std::uint16_t&gt;(sizeof(communication::Notification) + payload.size()),
         47 // The server must register this ID in NotificationRegistry.
@@ -482,17 +491,17 @@ int main() {
 
     while (true) {
         if (const auto result = client.update(32); !result) {
-            std::println(&quot;Failed to update: {}&quot;, result.error().message());
+            std::cout &lt;&lt; "Failed to update: " &lt;&lt; result.error().message() &lt;&lt; '\n';
             break;
         }
         if (client.isConnected()) {
             if (const auto result = network::queueMessage(communication::notification2OutboundMessage(
                     notification, payload, network::Target::single(client.getServerHConn()))); !result) {
-                std::println(&quot;Failed to queue: {}&quot;, result.error().message());
+                std::cout &lt;&lt; "Failed to queue: " &lt;&lt; result.error().message() &lt;&lt; '\n';
                 break;
             }
             if (const auto result = network::flushAll(connections); !result) {
-                std::println(&quot;Failed to send: {}&quot;, result.error().message());
+                std::cout &lt;&lt; "Failed to send: " &lt;&lt; result.error().message() &lt;&lt; '\n';
                 break;
             }
         }
@@ -502,7 +511,7 @@ int main() {
     return 1; // The Client destructor closes the connection and shuts down the network.
 }
 </code></pre>
-<h2 id="runtime-contracts">Runtime contracts<a class="headerlink" href="#runtime-contracts" title="Permanent link">&para;</a></h2>
+<h2 id="runtime-contracts">Runtime contracts<a class="headerlink" href="#runtime-contracts" title="Permanent link">¶</a></h2>
 <p>One started <code>Client</code> or <code>Server</code> owns networking per process. Both classes have stable addresses and cannot be copied or moved. <code>Server::close()</code> and either owner's destructor release the runtime; a client can disconnect and reconnect without being destroyed. Direct <code>networkInit()</code> / <code>networkKill()</code> remain available when using the transport without a wrapper. See <a href="api/">API reference</a> for shutdown, callback exceptions, reentrancy and message validation contracts.</p></div>
             </div>
         </div>
@@ -586,5 +595,5 @@ int main() {
 
 <!--
 MkDocs version : 1.6.1
-Build Date UTC : 2026-11-13 01:23:22.018996+00:00
+Content updated UTC : 2026-11-17 (HTML sync from refactor/lightnerx2cpp17)
 -->

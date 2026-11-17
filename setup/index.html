@@ -34,25 +34,15 @@
                 <div id="navbar-collapse" class="navbar-collapse collapse">
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
-                            <li class="nav-item">
-                                <a href=".." class="nav-link">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="./" class="nav-link active" aria-current="page">Setup</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="../first-steps/" class="nav-link">First steps</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="../communication/" class="nav-link">Communication and INER</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="../api/" class="nav-link">API reference</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="../audit-fixes/" class="nav-link">Audit fixes</a>
-                            </li>
-                        </ul>
+<li class="nav-item"><a href="../" class="nav-link">Home</a></li>
+<li class="nav-item"><a href="../setup/" class="nav-link active" aria-current="page">Setup</a></li>
+<li class="nav-item"><a href="../first-steps/" class="nav-link">First steps</a></li>
+<li class="nav-item"><a href="../communication/" class="nav-link">Communication and INER</a></li>
+<li class="nav-item"><a href="../api/" class="nav-link">API reference</a></li>
+<li class="nav-item"><a href="../compact/" class="nav-link">C++17 compact types</a></li>
+<li class="nav-item"><a href="../migration-cpp17/" class="nav-link">Migration and validation</a></li>
+<li class="nav-item"><a href="../audit-fixes/" class="nav-link">Audit fixes</a></li>
+</ul>
 
                     <ul class="nav navbar-nav ms-md-auto">
                         <li class="nav-item">
@@ -61,14 +51,10 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href=".." class="nav-link">
-                                    <i class="fa fa-arrow-left"></i> Previous
-                                </a>
+                                <a rel="prev" href="../" class="nav-link"><i class="fa fa-arrow-left"></i> Previous</a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../first-steps/" class="nav-link">
-                                    Next <i class="fa fa-arrow-right"></i>
-                                </a>
+                                <a rel="next" href="../first-steps/" class="nav-link">Next <i class="fa fa-arrow-right"></i></a>
                             </li>
                     </ul>
                 </div>
@@ -85,59 +71,35 @@
     </div>
 
     
-    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
-        <ul class="nav flex-column">
-            
-            <li class="nav-item" data-bs-level="1"><a href="#setup" class="nav-link">Setup</a>
-              <ul class="nav flex-column">
-            <li class="nav-item" data-bs-level="2"><a href="#gamenetworkingsockets" class="nav-link">GameNetworkingSockets</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#toolchain-and-build" class="nav-link">Toolchain and build</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#consuming-with-cmake" class="nav-link">Consuming with CMake</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#regression-tests-and-sanitizers" class="nav-link">Regression tests and sanitizers</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-              </ul>
-            </li>
-        </ul>
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary"><ul class="nav flex-column"><li class="nav-item" data-bs-level="1"><a class="nav-link" href="#setup">Setup</a></li><li class="nav-item" data-bs-level="2"><a class="nav-link" href="#dependencies-and-toolchain">Dependencies and toolchain</a></li><li class="nav-item" data-bs-level="2"><a class="nav-link" href="#build">Build</a></li><li class="nav-item" data-bs-level="2"><a class="nav-link" href="#consuming-with-cmake">Consuming with CMake</a></li><li class="nav-item" data-bs-level="2"><a class="nav-link" href="#regression-tests">Regression tests</a></li><li class="nav-item" data-bs-level="2"><a class="nav-link" href="#sanitizers">Sanitizers</a></li></ul>
     </div>
 </div></div>
                     <div class="col-md-9" role="main">
-
-<h1 id="setup">Setup<a class="headerlink" href="#setup" title="Permanent link">&para;</a></h1>
-<p>LightnerX is a static C++ library. The project provides the <code>LightnerX</code> target and does not have its own executable.</p>
-<h2 id="gamenetworkingsockets">GameNetworkingSockets<a class="headerlink" href="#gamenetworkingsockets" title="Permanent link">&para;</a></h2>
-<p>GameNetworkingSockets is maintained as a submodule in <code>external/GameNetworkingSockets</code>. After obtaining the repository, run the following from the LightnerX root directory:</p>
+<h1 id="setup">Setup<a class="headerlink" href="#setup" title="Permanent link">¶</a></h1>
+<p>LightnerX is a static C++17 library. CMake provides the <code>LightnerX</code> target. The application supplies its own executable.</p>
+<h2 id="dependencies-and-toolchain">Dependencies and toolchain<a class="headerlink" href="#dependencies-and-toolchain" title="Permanent link">¶</a></h2>
+<p>Use CMake <strong>3.22 or newer</strong>, a C++17 compiler, and a build tool such as Ninja. CMake 3.22 is the minimum selected for compatibility with older development environments; CMake's version and the C++ language standard are independent requirements. Linux was validated with GCC 14.2 and Clang 19.1 in Debug and Release. GCC/libstdc++ 15.2 additionally validates the native comparison tests. Other platforms have not been validated by this migration.</p>
+<p>GameNetworkingSockets is pinned as a submodule in <code>external/GameNetworkingSockets</code>. Initialize it from the repository root:</p>
 <pre><code class="language-bash">git submodule update --init --recursive
 </code></pre>
-<p>This command retrieves GameNetworkingSockets and its recursive submodules in the state expected by LightnerX.</p>
-<h2 id="toolchain-and-build">Toolchain and build<a class="headerlink" href="#toolchain-and-build" title="Permanent link">&para;</a></h2>
-<p>LightnerX uses C++26 named modules and <code>import std</code>. The verified Linux toolchain
-is GCC 15.2 with its matching libstdc++, CMake 4.2.3 and Ninja 1.13.2. Install the
-GameNetworkingSockets prerequisites (including OpenSSL and Protobuf development
-packages and the Protobuf compiler) before configuring. Compilers and standard
-libraries without a C++26 <code>std</code> module are not supported by this configuration.</p>
-<pre><code class="language-bash">cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug
-cmake --build build --parallel 2
+<p>Install OpenSSL and Protobuf development packages, the Protobuf compiler, and Python 3 when building tests. For example, on Debian 13:</p>
+<pre><code class="language-bash">sudo apt-get install cmake g++-14 clang-19 ninja-build libssl-dev libprotobuf-dev protobuf-compiler python3-venv pkg-config
+cmake --version
 </code></pre>
-<h2 id="consuming-with-cmake">Consuming with CMake<a class="headerlink" href="#consuming-with-cmake" title="Permanent link">&para;</a></h2>
-<p>The <code>LightnerX</code> target propagates C++26, GameNetworkingSockets headers, compile
-definitions and link requirements. Consumers should link only that target.
-CMake's experimental <code>import std</code> support must be enabled <strong>before the parent
-project's first <code>project()</code> call</strong>. This gate is specific to CMake 4.2; consult the
-installed CMake documentation before changing CMake versions.</p>
-<pre><code class="language-cmake">cmake_minimum_required(VERSION 4.2)
-set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD &quot;d0edc3af-4c50-42ea-a356-e2862fe7a444&quot;)
-set(CMAKE_CXX_MODULE_STD ON)
+<p>Use a distribution package providing CMake 3.22 or newer. To reproduce the minimum-version check independently of the system package:</p>
+<pre><code class="language-bash">python3 -m venv .venv
+.venv/bin/pip install cmake==3.22.0
+export PATH="$PWD/.venv/bin:$PATH"
+</code></pre>
+<p>If dependencies live in a separate prefix, pass <code>-DCMAKE_PREFIX_PATH=/path/to/prefix</code> when configuring. The local validation used Protobuf 3.21.12, OpenSSL 3.6.5 and Ninja 1.13.2.</p>
+<h2 id="build">Build<a class="headerlink" href="#build" title="Permanent link">¶</a></h2>
+<pre><code class="language-bash">cmake -S . -B build/debug -G Ninja -DCMAKE_BUILD_TYPE=Debug
+cmake --build build/debug --parallel 2
+</code></pre>
+<p>To select a compiler, pass <code>-DCMAKE_C_COMPILER=gcc-14 -DCMAKE_CXX_COMPILER=g++-14</code>, or <code>-DCMAKE_C_COMPILER=clang-19 -DCMAKE_CXX_COMPILER=clang++-19</code>, in a fresh build directory. Use <code>-DCMAKE_BUILD_TYPE=Release</code> for a release build.</p>
+<h2 id="consuming-with-cmake">Consuming with CMake<a class="headerlink" href="#consuming-with-cmake" title="Permanent link">¶</a></h2>
+<p>The target propagates C++17, LightnerX headers, GameNetworkingSockets headers, compile definitions and link requirements. Consumers link <code>LightnerX</code>:</p>
+<pre><code class="language-cmake">cmake_minimum_required(VERSION 3.22)
 set(CMAKE_CXX_EXTENSIONS OFF)
 project(MyGame LANGUAGES C CXX)
 
@@ -145,48 +107,37 @@ add_subdirectory(external/LightnerX)
 add_executable(game main.cpp)
 target_link_libraries(game PRIVATE LightnerX)
 </code></pre>
-<pre><code class="language-cpp">#include &lt;steam/steamnetworkingsockets.h&gt;
-import std;
-import lightnerx.network.client;
+<pre><code class="language-cpp">#include &lt;lightnerx/network/client.hpp&gt;
 
 int main() {
     lightnerx::network::Client client;
     return client.start() ? 0 : 1;
 }
 </code></pre>
-<p>No prebuilt module binaries are distributed: the consumer and library must use
-compatible compiler, standard-library and module settings. The standalone
-<code>tests/consumer</code> project verifies this integration, including simultaneous imports
-of the client and transport modules.</p>
-<h2 id="regression-tests-and-sanitizers">Regression tests and sanitizers<a class="headerlink" href="#regression-tests-and-sanitizers" title="Permanent link">&para;</a></h2>
-<p>The regression suite also requires Python 3 for deterministic fault-injection
-tests that compile the production implementation with a small transport mock.</p>
+<p>Use ordinary headers and sources with compatible compiler and standard-library ABIs. Each former module has a corresponding header, for example <code>&lt;lightnerx/network/server.hpp&gt;</code>, with definitions in <code>network/server.cpp</code>. The independent <code>tests/consumer</code> project checks propagated requirements and shared network/queue state across translation units. All public headers also compile in isolation.</p>
+<p>Byte views use <code>lightnerx::compact::span</code>, and results use <code>lightnerx::compact::expected</code>. These are LightnerX implementations of the C++20 <code>std::span</code> and C++23 <code>std::expected</code> contracts for C++17; see <a href="../compact/">compact types</a> for supported operations and language limitations.</p>
+<h2 id="regression-tests">Regression tests<a class="headerlink" href="#regression-tests" title="Permanent link">¶</a></h2>
 <pre><code class="language-bash">cmake -S . -B build/tests -G Ninja -DCMAKE_BUILD_TYPE=Debug -DLIGHTNERX_BUILD_TESTS=ON
 cmake --build build/tests --parallel 2
 ctest --test-dir build/tests --output-on-failure
 </code></pre>
-<p>With the tested GCC 15.2 toolchain, instrument the modules with AddressSanitizer:</p>
-<pre><code class="language-bash">cmake -S . -B build/sanitizers -G Ninja -DCMAKE_BUILD_TYPE=Debug \
-  -DLIGHTNERX_BUILD_TESTS=ON -DLIGHTNERX_SANITIZERS=address
-cmake --build build/sanitizers --parallel 2
-ctest --test-dir build/sanitizers --output-on-failure
+<p>Tests include deterministic protocol characterization, routing and allocation failures, the complete client ID domain, callbacks, ownership, multi-file consumers, and the compact types. They also compile the documentation's C++ examples. Assertions remain enabled in Release. Network integration requires local UDP socket access; a build alone does not validate network behavior.</p>
+<p>To compare the compact types against the native standard types, use GCC/libstdc++ 15.2 and enable the separate reference executables:</p>
+<pre><code class="language-bash">cmake -S . -B build/native -G Ninja -DCMAKE_BUILD_TYPE=Debug \
+  -DLIGHTNERX_BUILD_TESTS=ON -DLIGHTNERX_BUILD_NATIVE_REFERENCE_TESTS=ON
+cmake --build build/native --parallel 2
+ctest --test-dir build/native --output-on-failure
 </code></pre>
-<p>This option instruments LightnerX and its consumers, including the tests; it does
-not instrument the standard-library module or third-party libraries. On a
-compatible compiler, <code>-DLIGHTNERX_SANITIZERS=address,undefined</code> enables both ASan
-and UBSan. GCC 15.2 hits an internal compiler error when compiling these modules
-with UBSan, even if <code>std</code> itself is not instrumented. The supplemental Python
-fault tests compile the production bodies without module declarations and run
-both sanitizers whenever <code>LIGHTNERX_SANITIZERS</code> is enabled; they supplement the
-real module tests rather than replacing them.</p>
-<p>Sanitizer diagnostics fail the test immediately. The lifecycle fault test links
-the real GNS library, which is built with <code>-fno-rtti</code>; only that supplemental test
-disables UBSan's <code>vptr</code> check. A raw GNS init/CreatePollGroup/Kill probe reproduces
-the incompatible check without using LightnerX. ASan and the other UBSan checks
-remain enabled. The allocation and ID mocks do not need this exclusion.</p>
-<p>Network integration tests require local UDP socket access. Restricted sandboxes
-may prevent those tests from completing; a build alone does not validate network
-behavior. Test assertions remain enabled in release configurations.</p></div>
+<p>Only these reference executables require C++20/23. LightnerX and the compact tests remain in C++17. A missing or incompatible native implementation fails the optional reference build; tests are not silently skipped. GCC 14's native expected implementation has an older conversion-to-boolean defect, so it is not the oracle for this comparison.</p>
+<p>For cross-version UDP tests, also pass <code>-DLIGHTNERX_REFERENCE_BINARY=/absolute/path/to/original/lightnerx_test_lifecycle</code>. CTest then pairs the old server with the new client and the new server with the old client. <a href="../migration-cpp17/">Migration validation</a> identifies the original revision and build requirements. The <a href="https://github.com/pietroth/LightnerX/blob/refactor/lightnerx2cpp17/.github/workflows/cpp17.yml">CI workflow</a> builds it separately.</p>
+<h2 id="sanitizers">Sanitizers<a class="headerlink" href="#sanitizers" title="Permanent link">¶</a></h2>
+<pre><code class="language-bash">cmake -S . -B build/sanitizers -G Ninja -DCMAKE_BUILD_TYPE=Debug \
+  -DLIGHTNERX_BUILD_TESTS=ON -DLIGHTNERX_SANITIZERS=address,undefined
+cmake --build build/sanitizers --parallel 2
+ASAN_OPTIONS=detect_leaks=1:halt_on_error=1 UBSAN_OPTIONS=halt_on_error=1 \
+  ctest --test-dir build/sanitizers --output-on-failure
+</code></pre>
+<p>This instruments LightnerX and its consumers, including tests. Dependencies are not rebuilt with sanitizer instrumentation. The pinned GameNetworkingSockets build disables RTTI, so GNS-linked targets disable only UBSan's <code>vptr</code> check. All other selected checks remain enabled, and independent compact and transport/allocation mock tests retain <code>vptr</code> checks as well. Fault-injection tests enable both ASan and UBSan when sanitizers are requested. Enabled sanitizer diagnostics fail tests immediately. LeakSanitizer may require execution outside a ptrace-restricted sandbox.</p></div>
             </div>
         </div>
 
