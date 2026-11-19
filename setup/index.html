@@ -4,8 +4,8 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        
-        
+
+
         <link rel="canonical" href="https://pietroth.github.io/LightnerX-docs/setup/">
         <link rel="shortcut icon" href="../img/favicon.ico">
         <title>Setup - LightnerX</title>
@@ -18,7 +18,7 @@
         <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
         <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
-        <script>hljs.highlightAll();</script> 
+        <script>hljs.highlightAll();</script>
     </head>
 
     <body>
@@ -34,15 +34,31 @@
                 <div id="navbar-collapse" class="navbar-collapse collapse">
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
-<li class="nav-item"><a href="../" class="nav-link">Home</a></li>
-<li class="nav-item"><a href="../setup/" class="nav-link active" aria-current="page">Setup</a></li>
-<li class="nav-item"><a href="../first-steps/" class="nav-link">First steps</a></li>
-<li class="nav-item"><a href="../communication/" class="nav-link">Communication and INER</a></li>
-<li class="nav-item"><a href="../api/" class="nav-link">API reference</a></li>
-<li class="nav-item"><a href="../compact/" class="nav-link">C++17 compact types</a></li>
-<li class="nav-item"><a href="../migration-cpp17/" class="nav-link">Migration and validation</a></li>
-<li class="nav-item"><a href="../audit-fixes/" class="nav-link">Audit fixes</a></li>
-</ul>
+                            <li class="nav-item">
+                                <a href=".." class="nav-link">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="./" class="nav-link active" aria-current="page">Setup</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../first-steps/" class="nav-link">First steps</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../communication/" class="nav-link">Communication and INER</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../api/" class="nav-link">API reference</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../cpp17-types/" class="nav-link">C++17 byte views and results</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../migration-cpp17/" class="nav-link">Migration and validation</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../audit-fixes/" class="nav-link">Audit fixes</a>
+                            </li>
+                        </ul>
 
                     <ul class="nav navbar-nav ms-md-auto">
                         <li class="nav-item">
@@ -51,10 +67,14 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../" class="nav-link"><i class="fa fa-arrow-left"></i> Previous</a>
+                                <a rel="prev" href=".." class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../first-steps/" class="nav-link">Next <i class="fa fa-arrow-right"></i></a>
+                                <a rel="next" href="../first-steps/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
                             </li>
                     </ul>
                 </div>
@@ -70,35 +90,87 @@
         </button>
     </div>
 
-    
-    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary"><ul class="nav flex-column"><li class="nav-item" data-bs-level="1"><a class="nav-link" href="#setup">Setup</a></li><li class="nav-item" data-bs-level="2"><a class="nav-link" href="#dependencies-and-toolchain">Dependencies and toolchain</a></li><li class="nav-item" data-bs-level="2"><a class="nav-link" href="#build">Build</a></li><li class="nav-item" data-bs-level="2"><a class="nav-link" href="#consuming-with-cmake">Consuming with CMake</a></li><li class="nav-item" data-bs-level="2"><a class="nav-link" href="#regression-tests">Regression tests</a></li><li class="nav-item" data-bs-level="2"><a class="nav-link" href="#sanitizers">Sanitizers</a></li></ul>
+
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+
+            <li class="nav-item" data-bs-level="1"><a href="#setup" class="nav-link">Setup</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#dependencies-and-toolchain" class="nav-link">Dependencies and toolchain</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#build" class="nav-link">Build</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#consuming-with-cmake" class="nav-link">Consuming with CMake</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#regression-tests" class="nav-link">Regression tests</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#sanitizers" class="nav-link">Sanitizers</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
     </div>
 </div></div>
                     <div class="col-md-9" role="main">
-<h1 id="setup">Setup<a class="headerlink" href="#setup" title="Permanent link">¶</a></h1>
-<p>LightnerX is a static C++17 library. CMake provides the <code>LightnerX</code> target. The application supplies its own executable.</p>
-<h2 id="dependencies-and-toolchain">Dependencies and toolchain<a class="headerlink" href="#dependencies-and-toolchain" title="Permanent link">¶</a></h2>
-<p>Use CMake <strong>3.22 or newer</strong>, a C++17 compiler, and a build tool such as Ninja. CMake 3.22 is the minimum selected for compatibility with older development environments; CMake's version and the C++ language standard are independent requirements. Linux was validated with GCC 14.2 and Clang 19.1 in Debug and Release. GCC/libstdc++ 15.2 additionally validates the native comparison tests. Other platforms have not been validated by this migration.</p>
-<p>GameNetworkingSockets is pinned as a submodule in <code>external/GameNetworkingSockets</code>. Initialize it from the repository root:</p>
+
+<h1 id="setup">Setup<a class="headerlink" href="#setup" title="Permanent link">&para;</a></h1>
+<p>LightnerX is a C++17 library built statically by default. CMake provides the <code>LightnerX</code> target. The application supplies its own executable.</p>
+<h2 id="dependencies-and-toolchain">Dependencies and toolchain<a class="headerlink" href="#dependencies-and-toolchain" title="Permanent link">&para;</a></h2>
+<p>Use CMake <strong>3.22 or newer</strong>, a C++17 compiler, and a build tool such as Ninja. The CI matrix builds with GCC 14 and Clang 19 on Linux in Debug and Release.</p>
+<p>LightnerX uses three pinned Git submodules.</p>
+<table>
+<thead>
+<tr>
+<th>Dependency</th>
+<th>Path</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://github.com/ValveSoftware/GameNetworkingSockets">GameNetworkingSockets</a></td>
+<td><code>external/GameNetworkingSockets</code></td>
+</tr>
+<tr>
+<td><a href="https://github.com/tcbrindle/span/tree/836dc6a0efd9849cb194e88e4aa2387436bb079b">tcbrindle/span</a></td>
+<td><code>external/span</code></td>
+</tr>
+<tr>
+<td><a href="https://github.com/zeus-cpp/expected/tree/v1.4.0">zeus-cpp/expected v1.4.0</a></td>
+<td><code>external/expected</code></td>
+</tr>
+</tbody>
+</table>
+<p>Initialize or update them from the repository root.</p>
 <pre><code class="language-bash">git submodule update --init --recursive
 </code></pre>
-<p>Install OpenSSL and Protobuf development packages, the Protobuf compiler, and Python 3 when building tests. For example, on Debian 13:</p>
+<p>Install the OpenSSL and Protobuf development packages and the Protobuf compiler. Running the regression suite also requires Python 3, Bash and a GCC- or Clang-compatible compiler driver. On Debian 13, install these packages.</p>
 <pre><code class="language-bash">sudo apt-get install cmake g++-14 clang-19 ninja-build libssl-dev libprotobuf-dev protobuf-compiler python3-venv pkg-config
 cmake --version
 </code></pre>
 <p>Use a distribution package providing CMake 3.22 or newer. To reproduce the minimum-version check independently of the system package:</p>
 <pre><code class="language-bash">python3 -m venv .venv
 .venv/bin/pip install cmake==3.22.0
-export PATH="$PWD/.venv/bin:$PATH"
+export PATH=&quot;$PWD/.venv/bin:$PATH&quot;
 </code></pre>
-<p>If dependencies live in a separate prefix, pass <code>-DCMAKE_PREFIX_PATH=/path/to/prefix</code> when configuring. The local validation used Protobuf 3.21.12, OpenSSL 3.6.5 and Ninja 1.13.2.</p>
-<h2 id="build">Build<a class="headerlink" href="#build" title="Permanent link">¶</a></h2>
+<p>If dependencies live in a separate prefix, pass <code>-DCMAKE_PREFIX_PATH=/path/to/prefix</code> when configuring.</p>
+<h2 id="build">Build<a class="headerlink" href="#build" title="Permanent link">&para;</a></h2>
 <pre><code class="language-bash">cmake -S . -B build/debug -G Ninja -DCMAKE_BUILD_TYPE=Debug
 cmake --build build/debug --parallel 2
 </code></pre>
 <p>To select a compiler, pass <code>-DCMAKE_C_COMPILER=gcc-14 -DCMAKE_CXX_COMPILER=g++-14</code>, or <code>-DCMAKE_C_COMPILER=clang-19 -DCMAKE_CXX_COMPILER=clang++-19</code>, in a fresh build directory. Use <code>-DCMAKE_BUILD_TYPE=Release</code> for a release build.</p>
-<h2 id="consuming-with-cmake">Consuming with CMake<a class="headerlink" href="#consuming-with-cmake" title="Permanent link">¶</a></h2>
-<p>The target propagates C++17, LightnerX headers, GameNetworkingSockets headers, compile definitions and link requirements. Consumers link <code>LightnerX</code>:</p>
+<p>LightnerX uses the shared GNS target when available. Configure with <code>-DBUILD_SHARED_LIB=OFF -DBUILD_STATIC_LIB=ON</code> to use static GNS. These options select the GNS variant independently of LightnerX.</p>
+<h2 id="consuming-with-cmake">Consuming with CMake<a class="headerlink" href="#consuming-with-cmake" title="Permanent link">&para;</a></h2>
+<p>The target propagates C++17, LightnerX and dependency headers, compile definitions and link requirements. Consumers link <code>LightnerX</code>:</p>
 <pre><code class="language-cmake">cmake_minimum_required(VERSION 3.22)
 set(CMAKE_CXX_EXTENSIONS OFF)
 project(MyGame LANGUAGES C CXX)
@@ -115,29 +187,23 @@ int main() {
 }
 </code></pre>
 <p>Use ordinary headers and sources with compatible compiler and standard-library ABIs. Each former module has a corresponding header, for example <code>&lt;lightnerx/network/server.hpp&gt;</code>, with definitions in <code>network/server.cpp</code>. The independent <code>tests/consumer</code> project checks propagated requirements and shared network/queue state across translation units. All public headers also compile in isolation.</p>
-<p>Byte views use <code>lightnerx::compact::span</code>, and results use <code>lightnerx::compact::expected</code>. These are LightnerX implementations of the C++20 <code>std::span</code> and C++23 <code>std::expected</code> contracts for C++17; see <a href="../compact/">compact types</a> for supported operations and language limitations.</p>
-<h2 id="regression-tests">Regression tests<a class="headerlink" href="#regression-tests" title="Permanent link">¶</a></h2>
+<p>Byte views use <code>tcb::span</code> from <code>&lt;tcb/span.hpp&gt;</code> and results use <code>zeus::expected</code> from <code>&lt;zeus/expected.hpp&gt;</code>. Both dependencies are header-only and available to consumers through the <code>LightnerX</code> target. See <a href="../cpp17-types/">C++17 byte views and results</a> for examples.</p>
+<p>For a host application that loads multiple plugins, configure with <code>-DLIGHTNERX_BUILD_SHARED=ON</code> and link each plugin to the same <code>LightnerX</code> target from the host build. Ship one shared library instance with the application. Static linking is supported for consumers that link LightnerX once into the process. Separate static copies embedded in plugins have separate state and can interfere with the same GNS runtime.</p>
+<h2 id="regression-tests">Regression tests<a class="headerlink" href="#regression-tests" title="Permanent link">&para;</a></h2>
 <pre><code class="language-bash">cmake -S . -B build/tests -G Ninja -DCMAKE_BUILD_TYPE=Debug -DLIGHTNERX_BUILD_TESTS=ON
 cmake --build build/tests --parallel 2
 ctest --test-dir build/tests --output-on-failure
 </code></pre>
-<p>Tests include deterministic protocol characterization, routing and allocation failures, the complete client ID domain, callbacks, ownership, multi-file consumers, and the compact types. They also compile the documentation's C++ examples. Assertions remain enabled in Release. Network integration requires local UDP socket access; a build alone does not validate network behavior.</p>
-<p>To compare the compact types against the native standard types, use GCC/libstdc++ 15.2 and enable the separate reference executables:</p>
-<pre><code class="language-bash">cmake -S . -B build/native -G Ninja -DCMAKE_BUILD_TYPE=Debug \
-  -DLIGHTNERX_BUILD_TESTS=ON -DLIGHTNERX_BUILD_NATIVE_REFERENCE_TESTS=ON
-cmake --build build/native --parallel 2
-ctest --test-dir build/native --output-on-failure
-</code></pre>
-<p>Only these reference executables require C++20/23. LightnerX and the compact tests remain in C++17. A missing or incompatible native implementation fails the optional reference build; tests are not silently skipped. GCC 14's native expected implementation has an older conversion-to-boolean defect, so it is not the oracle for this comparison.</p>
-<p>For cross-version UDP tests, also pass <code>-DLIGHTNERX_REFERENCE_BINARY=/absolute/path/to/original/lightnerx_test_lifecycle</code>. CTest then pairs the old server with the new client and the new server with the old client. <a href="../migration-cpp17/">Migration validation</a> identifies the original revision and build requirements. The <a href="https://github.com/pietroth/LightnerX/blob/refactor/lightnerx2cpp17/.github/workflows/cpp17.yml">CI workflow</a> builds it separately.</p>
-<h2 id="sanitizers">Sanitizers<a class="headerlink" href="#sanitizers" title="Permanent link">¶</a></h2>
+<p>Tests cover deterministic protocol characterization, routing and allocation failures, the complete client ID domain, callbacks, ownership and multi-file consumers. They also compile the documentation's C++ examples. Checks remain active in Release. Network integration requires local UDP socket access. Shared LightnerX builds on Unix also test that two loaded modules share ownership of the runtime. The byte-for-byte comparison with the historical fixture runs on little-endian hosts. On big-endian hosts, that test checks the symbolic error results and parser call count.</p>
+<p>For cross-version UDP tests, also pass <code>-DLIGHTNERX_REFERENCE_BINARY=/absolute/path/to/original/lightnerx_test_lifecycle</code>. CTest then pairs the old server with the new client and the new server with the old client. <a href="../migration-cpp17/">Migration validation</a> identifies the original revision and build requirements. The <a href="https://github.com/pietroth/LightnerX/blob/206bbca6d11339cfde10a32d6054af44b538bb63/.github/workflows/cpp17.yml">CI workflow</a> builds it separately.</p>
+<h2 id="sanitizers">Sanitizers<a class="headerlink" href="#sanitizers" title="Permanent link">&para;</a></h2>
 <pre><code class="language-bash">cmake -S . -B build/sanitizers -G Ninja -DCMAKE_BUILD_TYPE=Debug \
   -DLIGHTNERX_BUILD_TESTS=ON -DLIGHTNERX_SANITIZERS=address,undefined
 cmake --build build/sanitizers --parallel 2
 ASAN_OPTIONS=detect_leaks=1:halt_on_error=1 UBSAN_OPTIONS=halt_on_error=1 \
   ctest --test-dir build/sanitizers --output-on-failure
 </code></pre>
-<p>This instruments LightnerX and its consumers, including tests. Dependencies are not rebuilt with sanitizer instrumentation. The pinned GameNetworkingSockets build disables RTTI, so GNS-linked targets disable only UBSan's <code>vptr</code> check. All other selected checks remain enabled, and independent compact and transport/allocation mock tests retain <code>vptr</code> checks as well. Fault-injection tests enable both ASan and UBSan when sanitizers are requested. Enabled sanitizer diagnostics fail tests immediately. LeakSanitizer may require execution outside a ptrace-restricted sandbox.</p></div>
+<p>This instruments LightnerX and its consumers, including tests and any dependency templates instantiated in their code. The GameNetworkingSockets build disables RTTI, so GNS-linked targets disable UBSan's <code>vptr</code> check. The standalone mock tests enable both ASan and UBSan when sanitizers are requested. The lifecycle fault test uses the selected sanitizer list and links to the configured GNS target. Enabled sanitizer diagnostics fail tests immediately. LeakSanitizer may require execution outside a ptrace-restricted sandbox.</p></div>
             </div>
         </div>
 
@@ -151,6 +217,7 @@ ASAN_OPTIONS=detect_leaks=1:halt_on_error=1 UBSAN_OPTIONS=halt_on_error=1 \
                 shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
         </script>
         <script src="../js/base.js"></script>
+        <script src="../js/mermaid-init.js"></script>
         <script src="../search/main.js"></script>
 
         <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">

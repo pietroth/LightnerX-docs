@@ -4,8 +4,8 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        
-        
+
+
         <link rel="canonical" href="https://pietroth.github.io/LightnerX-docs/audit-fixes/">
         <link rel="shortcut icon" href="../img/favicon.ico">
         <title>Audit fixes - LightnerX</title>
@@ -18,7 +18,7 @@
         <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
         <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
-        <script>hljs.highlightAll();</script> 
+        <script>hljs.highlightAll();</script>
     </head>
 
     <body>
@@ -34,15 +34,31 @@
                 <div id="navbar-collapse" class="navbar-collapse collapse">
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
-<li class="nav-item"><a href="../" class="nav-link">Home</a></li>
-<li class="nav-item"><a href="../setup/" class="nav-link">Setup</a></li>
-<li class="nav-item"><a href="../first-steps/" class="nav-link">First steps</a></li>
-<li class="nav-item"><a href="../communication/" class="nav-link">Communication and INER</a></li>
-<li class="nav-item"><a href="../api/" class="nav-link">API reference</a></li>
-<li class="nav-item"><a href="../compact/" class="nav-link">C++17 compact types</a></li>
-<li class="nav-item"><a href="../migration-cpp17/" class="nav-link">Migration and validation</a></li>
-<li class="nav-item"><a href="../audit-fixes/" class="nav-link active" aria-current="page">Audit fixes</a></li>
-</ul>
+                            <li class="nav-item">
+                                <a href=".." class="nav-link">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../setup/" class="nav-link">Setup</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../first-steps/" class="nav-link">First steps</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../communication/" class="nav-link">Communication and INER</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../api/" class="nav-link">API reference</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../cpp17-types/" class="nav-link">C++17 byte views and results</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../migration-cpp17/" class="nav-link">Migration and validation</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="./" class="nav-link active" aria-current="page">Audit fixes</a>
+                            </li>
+                        </ul>
 
                     <ul class="nav navbar-nav ms-md-auto">
                         <li class="nav-item">
@@ -51,10 +67,14 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../migration-cpp17/" class="nav-link"><i class="fa fa-arrow-left"></i> Previous</a>
+                                <a rel="prev" href="../migration-cpp17/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" class="nav-link disabled">Next <i class="fa fa-arrow-right"></i></a>
+                                <a rel="next" class="nav-link disabled">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
                             </li>
                     </ul>
                 </div>
@@ -70,12 +90,40 @@
         </button>
     </div>
 
-    
-    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary"><ul class="nav flex-column"><li class="nav-item" data-bs-level="1"><a class="nav-link" href="#correcoes-da-auditoria-lightnerx-registro-historico">Correções da auditoria LightnerX — registro histórico</a></li><li class="nav-item" data-bs-level="2"><a class="nav-link" href="#resultado-por-item">Resultado por item</a></li><li class="nav-item" data-bs-level="2"><a class="nav-link" href="#evidencias-e-testes-historicos">Evidências e testes históricos</a></li><li class="nav-item" data-bs-level="2"><a class="nav-link" href="#reproducao-com-a-versao-c17-atual">Reprodução com a versão C++17 atual</a></li><li class="nav-item" data-bs-level="2"><a class="nav-link" href="#limites-historicos-dos-sanitizadores">Limites históricos dos sanitizadores</a></li><li class="nav-item" data-bs-level="2"><a class="nav-link" href="#api-publica-e-contratos-preservados">API pública e contratos preservados</a></li></ul>
+
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+
+            <li class="nav-item" data-bs-level="1"><a href="#correcoes-da-auditoria-lightnerx-registro-historico" class="nav-link">Correções da auditoria LightnerX — registro histórico</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#resultado-por-item" class="nav-link">Resultado por item</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#evidencias-e-testes-historicos" class="nav-link">Evidências e testes históricos</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#reproducao-com-a-versao-c17-atual" class="nav-link">Reprodução com a versão C++17 atual</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#limites-historicos-dos-sanitizadores" class="nav-link">Limites históricos dos sanitizadores</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#api-publica-e-contratos-preservados" class="nav-link">API pública e contratos preservados</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
     </div>
 </div></div>
                     <div class="col-md-9" role="main">
-<h1 id="correcoes-da-auditoria-lightnerx-registro-historico">Correções da auditoria LightnerX — registro histórico<a class="headerlink" href="#correcoes-da-auditoria-lightnerx-registro-historico" title="Permanent link">¶</a></h1>
+
+<h1 id="correcoes-da-auditoria-lightnerx-registro-historico">Correções da auditoria LightnerX — registro histórico<a class="headerlink" href="#correcoes-da-auditoria-lightnerx-registro-historico" title="Permanent link">&para;</a></h1>
 <p>Este documento preserva os resultados da auditoria de 12/11/2026, anterior à migração. O LightnerX atual usa C++17 e headers clássicos; a validação atual está em <a href="../migration-cpp17/">Migração C++17</a> e as instruções de build em <a href="../setup/">Setup</a>. Os caminhos da tabela abaixo foram atualizados para os arquivos atuais; os headers correspondentes estão em <code>include/lightnerx/</code>. Números, logs e limitações descritos como históricos referem-se exclusivamente à auditoria.</p>
 <p>Revisão de origem: <code>8e5a352</code>. Dependência GNS: <code>d534c19</code>. Auditoria lida:
 <code>LightnerX-audit.md</code>. Trabalho validado em 12/11/2026 com GCC/libstdc++ 15.2,
@@ -85,7 +133,7 @@ Naquela auditoria, C++26, módulos, GameNetworkingSockets, representação biná
 <code>queueMessage(OutboundMessage)</code> com <code>Target</code> foram preservados. Não houve edição
 de terceiros; a alteração preexistente em
 <code>external/GameNetworkingSockets/examples/trivial_signaling_client.h</code> foi mantida naquela auditoria.</p>
-<h2 id="resultado-por-item">Resultado por item<a class="headerlink" href="#resultado-por-item" title="Permanent link">¶</a></h2>
+<h2 id="resultado-por-item">Resultado por item<a class="headerlink" href="#resultado-por-item" title="Permanent link">&para;</a></h2>
 <p>Os nomes de testes abaixo são os sufixos dos testes CTest <code>lightnerx.*</code>.
 Os caminhos de implementação sem prefixo estão em <code>network/</code>.</p>
 <table>
@@ -229,7 +277,7 @@ Os caminhos de implementação sem prefixo estão em <code>network/</code>.</p>
 </tr>
 </tbody>
 </table>
-<h2 id="evidencias-e-testes-historicos">Evidências e testes históricos<a class="headerlink" href="#evidencias-e-testes-historicos" title="Permanent link">¶</a></h2>
+<h2 id="evidencias-e-testes-historicos">Evidências e testes históricos<a class="headerlink" href="#evidencias-e-testes-historicos" title="Permanent link">&para;</a></h2>
 <p>A suíte normal passou nos oito testes, sem testes ignorados. Resultados locais:
 <code>build/audit/test-results.xml</code> e <code>build/audit/Testing/Temporary/LastTest.log</code>.
 A execução instrumentada final também passou nos oito testes, sem testes
@@ -264,7 +312,7 @@ overflow de IDs; tamanho INER inválido entregue; alocação nula causando falha
 O consumidor original não encontrava o header Steam e compilava em C++17.
 O teste de domínio também foi aplicado ao arquivo original de <code>8e5a352</code> e falhou
 em <code>exhausted ID domain must reject add</code> (<code>build/audit/id-baseline.log</code>).</p>
-<h2 id="reproducao-com-a-versao-c17-atual">Reprodução com a versão C++17 atual<a class="headerlink" href="#reproducao-com-a-versao-c17-atual" title="Permanent link">¶</a></h2>
+<h2 id="reproducao-com-a-versao-c17-atual">Reprodução com a versão C++17 atual<a class="headerlink" href="#reproducao-com-a-versao-c17-atual" title="Permanent link">&para;</a></h2>
 <p>Os comandos abaixo executam a suíte atual; não recriam os oito testes históricos. Para reproduzir o ambiente antigo, use a revisão e a toolchain daquela auditoria. O problema UBSan/módulos descrito abaixo não se aplica mais à implementação C++17; somente a incompatibilidade de <code>vptr</code> com GNS sem RTTI permanece.</p>
 <pre><code class="language-bash">cmake -S . -B build/audit -G Ninja \
   -DCMAKE_BUILD_TYPE=Debug -DLIGHTNERX_BUILD_TESTS=ON
@@ -281,7 +329,7 @@ ctest --test-dir build/audit-sanitizers --output-on-failure --output-junit test-
 oferecia. A execução final usa o ambiente autorizado fora dessa restrição.
 O limite dos testes que compilam código foi ampliado para 180 segundos após um
 timeout de compilação concorrente; os limites de runtime permanecem delimitados.</p>
-<h2 id="limites-historicos-dos-sanitizadores">Limites históricos dos sanitizadores<a class="headerlink" href="#limites-historicos-dos-sanitizadores" title="Permanent link">¶</a></h2>
+<h2 id="limites-historicos-dos-sanitizadores">Limites históricos dos sanitizadores<a class="headerlink" href="#limites-historicos-dos-sanitizadores" title="Permanent link">&para;</a></h2>
 <p>Os módulos LightnerX e os consumidores foram compilados com ASan. Os três testes
 suplementares usam ASan e UBSan, com <code>-fno-sanitize-recover=all</code>, para que qualquer
 diagnóstico habilitado resulte em falha. A biblioteca padrão e o GNS não foram
@@ -297,7 +345,7 @@ teste suplementar de ciclo de vida, que chama a biblioteca real, usa
 <code>-fno-sanitize=vptr</code>. Os outros dois testes suplementares não precisam dessa
 exclusão. Esse diagnóstico foi investigado mesmo quando CTest inicialmente
 reportou sucesso por causa do modo recuperável padrão do UBSan.</p>
-<h2 id="api-publica-e-contratos-preservados">API pública e contratos preservados<a class="headerlink" href="#api-publica-e-contratos-preservados" title="Permanent link">¶</a></h2>
+<h2 id="api-publica-e-contratos-preservados">API pública e contratos preservados<a class="headerlink" href="#api-publica-e-contratos-preservados" title="Permanent link">&para;</a></h2>
 <ul>
 <li>Client e Server não podem mais ser copiados ou movidos. Server ganha destrutor
   com limpeza automática; <code>close()</code> é idempotente e <code>noexcept</code>.</li>
@@ -340,6 +388,7 @@ composição de módulos e consistência entre código e documentação.</p></di
                 shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
         </script>
         <script src="../js/base.js"></script>
+        <script src="../js/mermaid-init.js"></script>
         <script src="../search/main.js"></script>
 
         <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
